@@ -1,7 +1,7 @@
-package model;
+package model.entitites;
 
 public class PessoaJuridica extends Cliente {
-	private String cpnj;
+	private String cnpj;
 	private String telefone;
 	private String email;
 	
@@ -9,11 +9,11 @@ public class PessoaJuridica extends Cliente {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getCpnj() {
-		return cpnj;
+	public String getCnpj() {
+		return cnpj;
 	}
-	public void setCpnj(String cpnj) {
-		this.cpnj = cpnj;
+	public void setCnpj(String cpnj) {
+		this.cnpj = cpnj;
 	}
 	public String getTelefone() {
 		return telefone;
@@ -26,6 +26,16 @@ public class PessoaJuridica extends Cliente {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getId() 
+		+ this.getNome() + ","
+		+ (this.getEndereco() != null ? Integer.toString(this.getEndereco().getCodigo()) : -1) + ","
+		+ cnpj + ","
+		+ telefone + ","
+		+ email;
 	}
 	
 }

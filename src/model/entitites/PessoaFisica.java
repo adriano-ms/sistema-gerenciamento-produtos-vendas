@@ -1,8 +1,13 @@
-package model;
+package model.entitites;
 
 public class PessoaFisica extends Cliente {
 	private String cpf;
 	private String celular;
+
+	public PessoaFisica(String cpf, String celular) {
+		this.cpf = cpf;
+		this.celular = celular;
+	}
 
 	public PessoaFisica() {
 		// TODO Auto-generated constructor stub
@@ -20,4 +25,14 @@ public class PessoaFisica extends Cliente {
 	public void setCelular(String celular) {
 		this.celular = celular;
 	}
+	
+	@Override
+	public String toString() {
+		return this.getId()
+		+ this.getNome() + ","
+		+ (this.getEndereco() != null ? Integer.toString(this.getEndereco().getCodigo()) : -1) + ","
+		+ cpf + ","
+		+ celular;
+	}
+
 }

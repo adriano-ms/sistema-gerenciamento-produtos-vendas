@@ -1,6 +1,7 @@
-package model;
+package model.entitites;
 
 public abstract class Cliente {
+	private int id;
 	private String nome;
 	private Endereco endereco;
 
@@ -19,4 +20,13 @@ public abstract class Cliente {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 }

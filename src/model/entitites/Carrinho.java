@@ -1,4 +1,4 @@
-package model;
+package model.entitites;
 
 import br.edu.fateczl.list.List;
 
@@ -25,6 +25,7 @@ public class Carrinho {
 	}
 	
 	public void adicionarProduto(Integer codigo, Integer qtde) {
+		
 		
 	}
 	

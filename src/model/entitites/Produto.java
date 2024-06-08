@@ -1,4 +1,4 @@
-package model;
+package model.entitites;
 
 public class Produto {
 	private int codigo;
@@ -9,7 +9,7 @@ public class Produto {
 	private TipoProduto tipo;
 	
 	public Produto() {
-		// TODO Auto-generated constructor stub
+		tipo = new TipoProduto();
 	}
 
 	public int getCodigo() {
@@ -58,6 +58,15 @@ public class Produto {
 
 	public void setTipo(TipoProduto tipo) {
 		this.tipo = tipo;
+	}
+	
+	public String toString() {
+		return codigo + ","
+				+ nome + ","
+				+ valor + ","
+				+ descricao + ","
+				+ qtdEmEstoque + ","
+				+ (tipo == null ? "-1" : String.valueOf(tipo.getCodigo()));
 	}
 	
 }

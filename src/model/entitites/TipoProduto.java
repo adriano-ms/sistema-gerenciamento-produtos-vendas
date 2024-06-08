@@ -1,11 +1,16 @@
-package model;
+package model.entitites;
 
 public class TipoProduto {
 	private int codigo;
 	private String nome;
 	
 	public TipoProduto() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+
+	public TipoProduto(int codigo, String nome) {
+		this.codigo = codigo;
+		this.nome = nome;
 	}
 
 	public int getCodigo() {
@@ -22,6 +27,11 @@ public class TipoProduto {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	@Override
+	public String toString() {
+		return codigo + "," + nome;
 	}
 
 }
