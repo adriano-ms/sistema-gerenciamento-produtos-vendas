@@ -15,7 +15,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AdicionarCliente extends JFrame {
+public class ConsultarCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -27,7 +27,7 @@ public class AdicionarCliente extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdicionarCliente frame = new AdicionarCliente();
+					ConsultarCliente frame = new ConsultarCliente();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,7 +39,7 @@ public class AdicionarCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdicionarCliente() {
+	public ConsultarCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 536, 316);
 		contentPane = new JPanel();
@@ -53,11 +53,11 @@ public class AdicionarCliente extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblAdicionarCliente = new JLabel("Adicionar Cliente");
-		lblAdicionarCliente.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdicionarCliente.setFont(new Font("Cambria", Font.PLAIN, 24));
-		lblAdicionarCliente.setBounds(136, 11, 231, 47);
-		panel.add(lblAdicionarCliente);
+		JLabel lblConsultarCliente = new JLabel("Consultar Cliente");
+		lblConsultarCliente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultarCliente.setFont(new Font("Cambria", Font.PLAIN, 24));
+		lblConsultarCliente.setBounds(136, 11, 231, 47);
+		panel.add(lblConsultarCliente);
 		
 		JRadioButton rdbtnPessoaFisica = new JRadioButton("Pessoa Física");
 		rdbtnPessoaFisica.setFont(new Font("Cambria", Font.PLAIN, 14));
@@ -79,18 +79,17 @@ public class AdicionarCliente extends JFrame {
 		btnAvancar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnPessoaFisica.isSelected()) {
-					new AdicionarPessoaFisica().setVisible(true);
+					new ConsultarPessoaFisica().setVisible(true);
 					dispose();
 				}
 				else if (rdbtnPessoaJuridica.isSelected()) {
-					new AdicionarPessoaJuridica().setVisible(true);
+					new ConsultarPessoaJuridica().setVisible(true);
 					dispose();
 				}
 				else {
 					JOptionPane.showMessageDialog(null,"Nenhuma opção selecionada");
 				}
 			
-				
 			}
 		});
 		btnAvancar.setFont(new Font("Cambria", Font.PLAIN, 18));
@@ -108,4 +107,5 @@ public class AdicionarCliente extends JFrame {
 		btnVoltar.setBounds(82, 220, 152, 23);
 		panel.add(btnVoltar);
 	}
+
 }

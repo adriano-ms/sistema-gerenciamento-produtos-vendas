@@ -139,7 +139,7 @@ public class GerenciarProduto extends JFrame {
 				ConsultarProduto cP = new ConsultarProduto();
 				dispose();
 				cP.setVisible(true);
-				
+											
 			}
 		});
 		btnConsultarProduto.setFont(new Font("Cambria", Font.PLAIN, 18));

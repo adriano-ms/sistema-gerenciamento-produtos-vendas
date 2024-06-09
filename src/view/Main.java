@@ -74,19 +74,32 @@ public class Main extends JFrame {
 		JButton btn = new JButton("Gerenciar Tipo Produtos");
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GerenciarTipoProduto GTP = new GerenciarTipoProduto();
+				new GerenciarTipoProduto().setVisible(true);
 				setVisible(false);
-				GTP.setVisible(true);
+				
 			}
 		});
 		btn.setBounds(188, 157, 195, 49);
 		panel.add(btn);
 		
 		JButton btnGerenciarClientes = new JButton("Gerenciar Clientes");
+		btnGerenciarClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new GerenciarCliente().setVisible(true);
+				setVisible(false);
+			}
+		});
 		btnGerenciarClientes.setBounds(401, 157, 140, 49);
 		panel.add(btnGerenciarClientes);
 		
 		JButton btnComprar = new JButton("Comprar");
+		btnComprar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Carrinho carrinho = new Carrinho();
+				new ComprarProduto(carrinho.getTblCarrinho(), carrinho).setVisible(true);;
+				dispose();
+			}
+		});
 		btnComprar.setBounds(216, 235, 140, 49);
 		panel.add(btnComprar);
 	}

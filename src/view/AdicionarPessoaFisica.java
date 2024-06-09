@@ -10,6 +10,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AdicionarPessoaFisica extends JFrame {
 
@@ -31,6 +33,7 @@ public class AdicionarPessoaFisica extends JFrame {
 	private JTextField txtComplemento;
 	private JLabel lblCEP;
 	private JTextField txtCEP;
+	private JButton btnVoltar;
 	private JButton btnCadastrar;
 
 	/**
@@ -156,9 +159,20 @@ public class AdicionarPessoaFisica extends JFrame {
 		txtCEP.setBounds(402, 139, 120, 25);
 		panel.add(txtCEP);
 		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AdicionarCliente().setVisible(true);
+				dispose();
+			}
+		});
+		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
+		btnVoltar.setBounds(49, 310, 201, 32);
+		panel.add(btnVoltar);
+		
 		btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnCadastrar.setBounds(170, 311, 201, 32);
+		btnCadastrar.setBounds(321, 310, 201, 32);
 		panel.add(btnCadastrar);
 	}
 }

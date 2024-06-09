@@ -10,6 +10,8 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GerenciarCliente extends JFrame {
 
@@ -69,16 +71,34 @@ public class GerenciarCliente extends JFrame {
 		panel.add(txtCodigoCliente);
 		
 		JButton btnAdicionarCliente = new JButton("Adicionar Cliente +");
+		btnAdicionarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AdicionarCliente().setVisible(true);
+				dispose();				
+			}
+		});
 		btnAdicionarCliente.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnAdicionarCliente.setBounds(35, 232, 204, 25);
 		panel.add(btnAdicionarCliente);
 		
 		JButton btnConsultarCliente = new JButton("Consultar Cliente");
+		btnConsultarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ConsultarCliente().setVisible(true);
+				dispose();
+			}
+		});
 		btnConsultarCliente.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnConsultarCliente.setBounds(297, 232, 204, 25);
 		panel.add(btnConsultarCliente);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Main().setVisible(true);
+				dispose();
+			}
+		});
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnVoltar.setBounds(172, 298, 204, 25);
 		panel.add(btnVoltar);

@@ -6,21 +6,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-public class AdicionarPessoaJuridica extends JFrame {
+public class ConsultarPessoaJuridica extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNomeCliente;
 	private JTextField txtLogradouro;
 	private JTextField txtCNPJ;
-	private JTextField txtCelular;
+	private JTextField txtTelefone;
 	private JTextField txtNumero;
 	private JTextField txtComplemento;
 	private JTextField txtCEP;
@@ -32,7 +36,7 @@ public class AdicionarPessoaJuridica extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					AdicionarPessoaJuridica frame = new AdicionarPessoaJuridica();
+					ConsultarPessoaJuridica frame = new ConsultarPessoaJuridica();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,7 +48,8 @@ public class AdicionarPessoaJuridica extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public AdicionarPessoaJuridica() {
+	public ConsultarPessoaJuridica() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 426);
 		contentPane = new JPanel();
@@ -54,15 +59,15 @@ public class AdicionarPessoaJuridica extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 550, 365);
+		panel.setBounds(10, 11, 545, 365);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblAdicionarPessoa = new JLabel("Adicionar Cliente Pessoa Física");
-		lblAdicionarPessoa.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAdicionarPessoa.setFont(new Font("Cambria", Font.PLAIN, 24));
-		lblAdicionarPessoa.setBounds(111, 11, 350, 29);
-		panel.add(lblAdicionarPessoa);
+		JLabel lblConsultarPessoaJuridica = new JLabel("Consultando Cliente Pessoa Jurídica");
+		lblConsultarPessoaJuridica.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultarPessoaJuridica.setFont(new Font("Cambria", Font.PLAIN, 24));
+		lblConsultarPessoaJuridica.setBounds(70, 11, 411, 29);
+		panel.add(lblConsultarPessoaJuridica);
 		
 		JLabel lblNomeCliente = new JLabel("Nome Cliente:");
 		lblNomeCliente.setHorizontalAlignment(SwingConstants.CENTER);
@@ -106,11 +111,11 @@ public class AdicionarPessoaJuridica extends JFrame {
 		lblTelefone.setBounds(57, 189, 74, 32);
 		panel.add(lblTelefone);
 		
-		txtCelular = new JTextField();
-		txtCelular.setFont(new Font("Cambria", Font.PLAIN, 18));
-		txtCelular.setColumns(10);
-		txtCelular.setBounds(134, 192, 120, 25);
-		panel.add(txtCelular);
+		txtTelefone = new JTextField();
+		txtTelefone.setFont(new Font("Cambria", Font.PLAIN, 18));
+		txtTelefone.setColumns(10);
+		txtTelefone.setBounds(134, 192, 120, 25);
+		panel.add(txtTelefone);
 		
 		JLabel lblNumero = new JLabel("Número:");
 		lblNumero.setHorizontalAlignment(SwingConstants.CENTER);
@@ -148,21 +153,79 @@ public class AdicionarPessoaJuridica extends JFrame {
 		txtCEP.setBounds(402, 139, 120, 25);
 		panel.add(txtCEP);
 		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnCadastrar.setBounds(321, 310, 201, 32);
-		panel.add(btnCadastrar);
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setFont(new Font("Cambria", Font.PLAIN, 18));
+		btnExcluir.setBounds(146, 311, 108, 32);
+		panel.add(btnExcluir);
+		
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					//Método de salvar
+					txtNomeCliente.setEnabled(false);
+					txtCNPJ.setEnabled(false);
+					txtTelefone.setEnabled(false);
+					txtLogradouro.setEnabled(false);
+					txtCEP.setEnabled(false);
+					txtNumero.setEnabled(false);
+					txtComplemento.setEnabled(false);
+					JOptionPane.showMessageDialog(null, "Cliente Salvo com sucesso");
+					new GerenciarCliente().setVisible(true);
+					dispose();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSalvar.setEnabled(true);
+				txtNomeCliente.setEnabled(true);
+				txtCNPJ.setEnabled(true);
+				txtTelefone.setEnabled(true);
+				txtLogradouro.setEnabled(true);
+				txtCEP.setEnabled(true);
+				txtNumero.setEnabled(true);
+				txtComplemento.setEnabled(true);
+				btnEditar.setEnabled(false);
+			}
+		});
+		btnEditar.setFont(new Font("Cambria", Font.PLAIN, 18));
+		btnEditar.setBounds(283, 311, 108, 32);
+		panel.add(btnEditar);
+		
+		
+		btnSalvar.setFont(new Font("Cambria", Font.PLAIN, 18));
+		btnSalvar.setBounds(414, 311, 108, 32);
+		panel.add(btnSalvar);
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AdicionarCliente().setVisible(true);
+				new ConsultarCliente().setVisible(true);
 				dispose();
 			}
 		});
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnVoltar.setBounds(49, 310, 201, 32);
+		btnVoltar.setBounds(10, 311, 108, 32);
 		panel.add(btnVoltar);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				btnSalvar.setEnabled(false);
+				txtNomeCliente.setEnabled(false);
+				txtCNPJ.setEnabled(false);
+				txtTelefone.setEnabled(false);
+				txtLogradouro.setEnabled(false);
+				txtCEP.setEnabled(false);
+				txtNumero.setEnabled(false);
+				txtComplemento.setEnabled(false);
+			}
+		});
 	}
-
 }
