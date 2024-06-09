@@ -28,7 +28,9 @@ public class ItemCompraBD implements IDatabaseAccess<ItemCompra>{
 		List<ItemCompra> listaItens = new List<ItemCompra>();
 		List<List<String>> listaRetorno = new List<List<String>>();
 		List<Produto> listaProdutos = new ProdutoBD().consultar();
-		List<Compra> listaCompra = new CompraBD().consultar();
+		List<Compra> listaCompras = new CompraBD().consultar();
+		int qtdProdutos = listaProdutos.size();
+		int qtdCompras = listaCompras.size();
 		
 		try {
 			int qtdItens = listaRetorno.size();
@@ -36,10 +38,23 @@ public class ItemCompraBD implements IDatabaseAccess<ItemCompra>{
 				List<String> dados = listaRetorno.get(i);
 				ItemCompra item = new ItemCompra();
 				item.setId(Integer.parseInt(dados.get(0)));
-				item.setProduto(null);
+				int idProduto = Integer.parseInt(dados.get(1));
 				item.setQuantidade(Integer.parseInt(dados.get(2)));
-				item.setCompra(null);
+				int idCompra = Integer.parseInt(dados.get(3));
 				
+				for (int j = 0; j < qtdProdutos; j++) {
+					if(idProduto == listaProdutos.get(i).getCodigo()) {
+						item.setProduto(listaProdutos.get(i));
+						break;
+					}
+				}
+				for (int j = 0; j < qtdCompras; j++) {
+					if(idCompra == listaCompras.get(i).getId()) {
+						item.setCompra(listaCompras.get(i));
+						break;
+					}
+				}
+				listaItens.addLast(item);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

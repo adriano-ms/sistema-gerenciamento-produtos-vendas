@@ -10,9 +10,10 @@ public class Compra {
 	private Cliente cliente;
 	private double total;
 	
-	public Compra(int id, Date data, Cliente cliente, double total) {
+	public Compra(int id, Date data, String tipoPessoa, Cliente cliente, double total) {
 		this.id = id;
 		this.data = data;
+		this.tipoPessoa = tipoPessoa;
 		this.cliente = cliente;
 		this.total = total;
 	}
