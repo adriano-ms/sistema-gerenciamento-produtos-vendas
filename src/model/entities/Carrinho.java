@@ -2,13 +2,13 @@ package model.entities;
 
 import java.util.Date;
 
-import br.edu.fateczl.queue.Queue;
+import br.edu.fateczl.stack.Stack;
 import model.bd.CompraBD;
 import model.bd.ItemCompraBD;
 
 public class Carrinho {
 	
-	private Queue<ItemCompra> pilha;
+	private Stack<ItemCompra> pilha;
 	
 	public Carrinho() {
 		pilha = new Queue<ItemCompra>();
@@ -39,7 +39,7 @@ public class Carrinho {
 		item.setQuantidade(qtde);
 		item.setId(idItemCompra);
 		try {
-			pilha.insert(item);
+			pilha.push(item);
 //			lista.addLast(item);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,12 +59,12 @@ public class Carrinho {
 	}
 	
 	public void removerProduto(int codProduto) {
-		Queue<ItemCompra> pilhaAux = new Queue<ItemCompra>();
+		Stack<ItemCompra> pilhaAux = new Stack<ItemCompra>();
 		try {			
 			for (ItemCompra item : pilha) {
-				pilha.remove();
+				pilha.pop();
 				if(item.getProduto().getCodigo() != codProduto) {
-					pilhaAux.insert(item);
+					pilhaAux.push(item);
 				}
 			}
 		} catch (Exception e) {
