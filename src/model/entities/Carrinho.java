@@ -1,64 +1,89 @@
 package model.entities;
 
 import java.util.Date;
-import br.edu.fateczl.list.List;
+
+import br.edu.fateczl.queue.Queue;
 import model.bd.CompraBD;
+import model.bd.ItemCompraBD;
 
 public class Carrinho {
 	
-	private List<ItemCompra> lista;
+	private Queue<ItemCompra> pilha;
 	
 	public Carrinho() {
-		lista = new List<ItemCompra>();
+		pilha = new Queue<ItemCompra>();
 	}
 	
 	public double calcularTotal() {
-		int tamanho = lista.size();
+		//Queue<ItemCompra> pilhaAux = pilha;
 		double total = 0;
-		for (int i = 0; i < tamanho; i++) {
-			try {
-				total += lista.get(i).subTotal();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		for (ItemCompra item : pilha) {
+			total += item.subTotal();
 		}
+//		int tamanho = pilha.size();
+//		double total = 0;
+//		for (int i = 0; i < tamanho; i++) {
+//			try {
+//				pilha.
+//				total += lista.get(i).subTotal();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 		return total;
 	}
 	
-	public void adicionarProduto(Produto produto, Integer qtde, int id) {
+	public void adicionarProduto(Produto produto, int qtde, int idItemCompra) {
 		ItemCompra item = new ItemCompra();
 		item.setProduto(produto);
 		item.setQuantidade(qtde);
-		item.setId(id);
+		item.setId(idItemCompra);
 		try {
-			lista.addLast(item);
+			pilha.insert(item);
+//			lista.addLast(item);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void removerProduto(int codProduto, Integer qtde) {
+	public void alterarQuantidadeProduto(int codProduto, int qtde) {
+		for (ItemCompra item : pilha) {
+			if(item.getProduto().getCodigo() == codProduto) {
+				if(qtde <= 0) {
+					removerProduto(codProduto);
+				}else {
+					item.setQuantidade(qtde);
+				}
+			}
+		}
+	}
+	
+	public void removerProduto(int codProduto) {
+		Queue<ItemCompra> pilhaAux = new Queue<ItemCompra>();
 		try {			
-			int tamanho = lista.size();
-			for (int i = 0; i < tamanho; i++) {
-				if(lista.get(i).getProduto().getCodigo() == codProduto) {
-					int qtd = lista.get(i).getQuantidade();
-					if(qtde >= qtd)
-						lista.remove(i);
-					else
-						lista.get(i).setQuantidade(qtd-qtde);
+			for (ItemCompra item : pilha) {
+				pilha.remove();
+				if(item.getProduto().getCodigo() != codProduto) {
+					pilhaAux.insert(item);
 				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		pilha = pilhaAux;
 	}
-	
+
 	public boolean finalizarCompra(int idCompra, String tipoPessoa, Cliente cliente) {
 		try {
 			Compra compra = new Compra(idCompra, new Date(), tipoPessoa, cliente, this.calcularTotal());
 			CompraBD registrarCompra = new CompraBD();
 			registrarCompra.adicionar(compra);
+			
+			ItemCompraBD registrarItens = new ItemCompraBD();
+			for (ItemCompra item : pilha) {
+				item.setCompra(compra);
+				registrarItens.adicionar(item);
+			}
 		} catch (Exception e) {
 			return false;
 		}
@@ -66,6 +91,6 @@ public class Carrinho {
 	}
 	
 	public boolean isEmpty() {
-		return lista.isEmpty();
+		return pilha.isEmpty();
 	}
 }
