@@ -7,21 +7,26 @@ import model.entities.Produto;
 
 public class ItemCompraBD implements IDatabaseAccess<ItemCompra>{
 
+	DatabaseAccess database;
+	String filename = "itemcompra.csv";
+	
+	public ItemCompraBD() {
+		database = new DatabaseAccess();
+	}
+	
 	@Override
 	public List<ItemCompra> consultar() {
 		return carregarItensCompra();
 	}
 
 	@Override
-	public void adicionar(ItemCompra objeto) {
-		// TODO Auto-generated method stub
-		
+	public void adicionar(ItemCompra item) {
+		database.gravarNoArquivo(filename, item);
 	}
 
 	@Override
-	public void alterar(List<ItemCompra> objetosAtualizados) {
-		// TODO Auto-generated method stub
-		
+	public void alterar(List<ItemCompra> itensAtualizados) {
+		database.alterarArquivo(filename, itensAtualizados);
 	}
 	
 	private List<ItemCompra> carregarItensCompra(){
