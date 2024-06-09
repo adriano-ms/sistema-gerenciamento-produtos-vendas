@@ -19,13 +19,8 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		ItemCompra item = new ItemCompra();
-		System.out.println(item.toString());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm");
-		String dataString = dateFormat.format(new Date());
-		System.out.println(dataString);
-		Date data = dateFormat.parse(dataString);
-		System.out.println(dateFormat.format(data));
+		
+		
 		
 //		Date teste = dateFormat.parse(dat);
 //		System.out.println(teste.toString());

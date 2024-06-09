@@ -36,6 +36,8 @@ public class CompraBD implements IDatabaseAccess<Compra>{
 		List<List<String>> listaRetorno = database.lerArquivo(filename);
 		List<PessoaFisica> listaPessoaF = new PessoaFisicaBD().consultar();
 		List<PessoaJuridica> listaPessoaJ = new PessoaJuridicaBD().consultar();
+		int qtdClientesPF = listaPessoaF.size();
+		int qtdClientesPJ = listaPessoaJ.size();
 		
 		try {
 			int qtdCompras = listaRetorno.size();
@@ -50,16 +52,14 @@ public class CompraBD implements IDatabaseAccess<Compra>{
 				compra.setTotal(Double.parseDouble(dados.get(4)));
 				
 				if(compra.getTipoPessoa().contains("fisica")) {
-					int qtdClientes = listaPessoaF.size();
-					for (int j = 1; j < qtdClientes; j++) {
+					for (int j = 0; j < qtdClientesPF; j++) {
 						if(idCliente == listaPessoaF.get(i).getId()) {
 							compra.setCliente(listaPessoaF.get(i));
 							break;
 						}
 					}
 				}else {
-					int qtdClientes = listaPessoaJ.size();
-					for (int j = 1; j < qtdClientes; j++) {
+					for (int j = 0; j < qtdClientesPJ; j++) {
 						if(idCliente == listaPessoaJ.get(i).getId()) {
 							compra.setCliente(listaPessoaJ.get(i));
 							break;

@@ -10,6 +10,10 @@ public class ItemCompra {
 	public ItemCompra() {
 		super();
 	}
+	
+	public double subTotal() {
+		return produto.getValor() * quantidade;
+	}
 
 	public int getId() {
 		return id;
@@ -19,9 +23,6 @@ public class ItemCompra {
 		this.id = id;
 	}
 
-	private double subTotal() {
-		return 0;
-	}
 
 	public Produto getProduto() {
 		return produto;
