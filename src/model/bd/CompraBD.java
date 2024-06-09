@@ -3,9 +3,9 @@ package model.bd;
 import java.text.SimpleDateFormat;
 
 import br.edu.fateczl.list.List;
-import model.entitites.Compra;
-import model.entitites.PessoaFisica;
-import model.entitites.PessoaJuridica;
+import model.entities.Compra;
+import model.entities.PessoaFisica;
+import model.entities.PessoaJuridica;
 
 public class CompraBD implements IDatabaseAccess<Compra>{
 

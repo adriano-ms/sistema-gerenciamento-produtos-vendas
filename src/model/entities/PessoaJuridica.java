@@ -1,4 +1,4 @@
-package model.entitites;
+package model.entities;
 
 public class PessoaJuridica extends Cliente {
 	private String cnpj;

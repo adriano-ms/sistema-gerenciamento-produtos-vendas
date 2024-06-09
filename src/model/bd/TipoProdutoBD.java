@@ -1,7 +1,7 @@
 package model.bd;
 
 import br.edu.fateczl.list.List;
-import model.entitites.TipoProduto;
+import model.entities.TipoProduto;
 
 public class TipoProdutoBD implements IDatabaseAccess<TipoProduto>{
 

@@ -103,7 +103,8 @@ public class DatabaseAccess {
 		Path file = Paths.get(defaultFolder.toString(), filename);
 		
 		if(lista.isEmpty()) {
-			throw new NullPointerException("Lista vazia");
+			limparArquivo(file);
+			return;
 		}
 		
 		if(Files.notExists(file)) {

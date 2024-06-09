@@ -1,4 +1,4 @@
-package model.entitites;
+package model.entities;
 
 public class Endereco {
 	private int codigo;
