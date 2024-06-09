@@ -5,6 +5,7 @@ import model.bd.CompraBD;
 import model.bd.PessoaFisicaBD;
 import model.bd.PessoaJuridicaBD;
 import model.bd.ProdutoBD;
+import model.entities.Carrinho;
 import model.entities.Cliente;
 import model.entities.Compra;
 import model.entities.PessoaFisica;
@@ -33,10 +34,9 @@ public class ControladorCompra {
 	public List<Produto> listarProdutos(){
 		return this.repositorioProduto;
 	}
-
 	/*
-	public Double checkout(Queue<ItemCompra> itens) {
-		
+	public Double checkout(Carrinho carrinho, Cliente cliente) {
+		carrinho.finalizarCompra(proxId, cliente.getClass(), null)
 	}
 	*/
 	
