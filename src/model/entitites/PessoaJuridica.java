@@ -30,7 +30,7 @@ public class PessoaJuridica extends Cliente {
 	
 	@Override
 	public String toString() {
-		return this.getId() 
+		return this.getId() + ","
 		+ this.getNome() + ","
 		+ (this.getEndereco() != null ? Integer.toString(this.getEndereco().getCodigo()) : -1) + ","
 		+ cnpj + ","

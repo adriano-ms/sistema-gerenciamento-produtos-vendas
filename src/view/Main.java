@@ -1,14 +1,13 @@
 package view;
 
 import java.awt.EventQueue;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.JFrame;
 
-import model.entitites.Compra;
-import model.entitites.ItemCompra;
-import model.entitites.Produto;
+import controller.ControladorCliente;
+import model.entitites.Endereco;
+import model.entitites.PessoaFisica;
+import model.entitites.PessoaJuridica;
 
 public class Main {
 
@@ -20,40 +19,32 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		
+		ControladorCliente controladorCliente = new ControladorCliente();
+		for(int i = 0; i < 10; i++) {
+			Endereco end = new Endereco();
+			end.setLogradouro("Rua " + i);
+			end.setCep(i + "");
+			end.setComplemento("Complemento " + i);
+			end.setCep(i + "");
+			end.setNumero(i);
+			if(i % 2 == 0) {
+				PessoaJuridica cliente = new PessoaJuridica();
+				cliente.setNome("Nome " + i);
+				cliente.setCnpj(i + "");
+				cliente.setEmail("email" + i + "@email.com");
+				cliente.setTelefone(i + "");
+				cliente.setEndereco(end);
+				controladorCliente.cadastrar(cliente);
+			} else {
+				PessoaFisica cliente = new PessoaFisica();
+				cliente.setNome("Nome " + i);
+				cliente.setCpf(i + "");
+				cliente.setCelular(i + "");
+				controladorCliente.cadastrar(cliente);
+			}
+		}
 		
 		
-//		Date teste = dateFormat.parse(dat);
-//		System.out.println(teste.toString());
-//		ProdutoBD prodBD = new ProdutoBD();
-//		List<Produto> linhas = prodBD.consultar();
-//		System.out.println(linhas.get(0).toString());
-//		Produto produto = new Produto();
-//		produto.setCodigo(01);
-//		produto.setNome("NomeProduto");
-//		produto.setDescricao("Descrição do produto aqui");
-//		produto.setQtdEmEstoque(10);
-//		produto.setValor(29.1);
-//		TipoProduto tipo = new TipoProduto();
-//		tipo.setCodigo(2);
-//		produto.setTipo(tipo);
-//		
-//		Produto produto2 = new Produto();
-//		produto2.setCodigo(02);
-//		produto2.setNome("NomeProduto2");
-//		produto2.setDescricao("Descrição do produto aqui");
-//		produto2.setQtdEmEstoque(11);
-//		produto2.setValor(11.1);
-//		produto2.setTipo(tipo);
-//		
-//		List<Produto> lista = new List();
-//		lista.addFirst(produto);
-//		lista.addLast(produto2);
-
-		//DatabaseAccess database = new DatabaseAccess();
-		//database.criarArquivo(Paths.get("/database/teste.txt"), new PessoaFisica());
-		
-//		prodBD.alterar(lista);
-//		prodBD.adicionar(produto);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
