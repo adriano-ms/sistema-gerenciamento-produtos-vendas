@@ -4,11 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import controller.ControladorCliente;
-import model.entitites.Endereco;
-import model.entitites.PessoaFisica;
-import model.entitites.PessoaJuridica;
-
 public class Main {
 
 	private JFrame frame;
@@ -18,7 +13,7 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		
+		/*
 		ControladorCliente controladorCliente = new ControladorCliente();
 		for(int i = 0; i < 10; i++) {
 			Endereco end = new Endereco();
@@ -40,10 +35,11 @@ public class Main {
 				cliente.setNome("Nome " + i);
 				cliente.setCpf(i + "");
 				cliente.setCelular(i + "");
+				cliente.setEndereco(end);
 				controladorCliente.cadastrar(cliente);
 			}
 		}
-		
+		*/
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

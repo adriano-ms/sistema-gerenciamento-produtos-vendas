@@ -1,6 +1,6 @@
 package controller;
 
-import model.TipoProduto;
+import model.entities.TipoProduto;
 
 public class ControladorTipoProduto {
 	

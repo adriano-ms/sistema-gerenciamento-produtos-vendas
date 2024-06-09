@@ -4,10 +4,10 @@ import br.edu.fateczl.list.List;
 import model.bd.EnderecoBD;
 import model.bd.PessoaFisicaBD;
 import model.bd.PessoaJuridicaBD;
-import model.entitites.Cliente;
-import model.entitites.Endereco;
-import model.entitites.PessoaFisica;
-import model.entitites.PessoaJuridica;
+import model.entities.Cliente;
+import model.entities.Endereco;
+import model.entities.PessoaFisica;
+import model.entities.PessoaJuridica;
 
 public class ControladorCliente {
 
