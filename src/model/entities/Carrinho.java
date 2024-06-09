@@ -11,7 +11,7 @@ public class Carrinho {
 	private Stack<ItemCompra> pilha;
 	
 	public Carrinho() {
-		pilha = new Queue<ItemCompra>();
+		pilha = new Stack<ItemCompra>();
 	}
 	
 	public double calcularTotal() {
