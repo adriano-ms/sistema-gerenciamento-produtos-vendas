@@ -1,9 +1,9 @@
 package model.bd;
 
 import br.edu.fateczl.list.List;
-import model.entitites.Compra;
-import model.entitites.ItemCompra;
-import model.entitites.Produto;
+import model.entities.Compra;
+import model.entities.ItemCompra;
+import model.entities.Produto;
 
 public class ItemCompraBD implements IDatabaseAccess<ItemCompra>{
 

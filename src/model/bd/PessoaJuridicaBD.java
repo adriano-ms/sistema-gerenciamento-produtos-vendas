@@ -1,8 +1,8 @@
 package model.bd;
 
 import br.edu.fateczl.list.List;
-import model.entitites.Endereco;
-import model.entitites.PessoaJuridica;
+import model.entities.Endereco;
+import model.entities.PessoaJuridica;
 
 public class PessoaJuridicaBD implements IDatabaseAccess<PessoaJuridica>{
 

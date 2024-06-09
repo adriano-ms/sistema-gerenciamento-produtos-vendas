@@ -1,7 +1,7 @@
 package model.bd;
 
 import br.edu.fateczl.list.List;
-import model.entitites.Endereco;
+import model.entities.Endereco;
 
 public class EnderecoBD implements IDatabaseAccess<Endereco>{
 	

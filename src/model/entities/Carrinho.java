@@ -1,4 +1,4 @@
-package model.entitites;
+package model.entities;
 
 import java.util.Date;
 import br.edu.fateczl.list.List;

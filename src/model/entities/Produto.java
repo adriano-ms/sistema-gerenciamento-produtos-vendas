@@ -1,4 +1,4 @@
-package model.entitites;
+package model.entities;
 
 public class Produto {
 	private int codigo;
