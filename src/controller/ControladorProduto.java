@@ -103,7 +103,8 @@ public class ControladorProduto {
 		}
 	}
 	
-	public TipoProduto[] listarTipos() throws Exception {
+	public List<TipoProduto> listarTipos() throws Exception {
+		/*
 		try {
 			TipoProduto[] tipos = new TipoProduto[repositorioTipo.size()];
 			int size = tipos.length;
@@ -113,7 +114,8 @@ public class ControladorProduto {
 			return tipos;
 		} catch (Exception e) {
 			throw new Exception("Ocorreu um erro exibir os tipos de produtos!");
-		}
+		}*/
+		return this.repositorioTipo;
 	}
 	
 	private Boolean validarCampo(String s) {
