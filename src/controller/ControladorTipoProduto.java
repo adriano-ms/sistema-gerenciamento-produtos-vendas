@@ -12,22 +12,25 @@ public class ControladorTipoProduto {
 	private TipoProdutoBD tipoBD;
 	private List<TipoProduto> repositorioTipo;
 	private List<Produto>[] repositorioProduto;
+	private Integer proxId;
 	
 	public ControladorTipoProduto() throws Exception {
 		this.tipoBD = new TipoProdutoBD();
 		this.repositorioTipo = tipoBD.consultar();
 		this.produtoBD = new ProdutoBD();
-		gerarTabela();
+		this.proxId = gerarTabela();
 	}
 	
 	public void adicionarTipoProduto(TipoProduto tipo) throws Exception {
 		validarDados(tipo);
 		int size = repositorioTipo.size();
 		for(int i = 0; i < size; i++) {
-			if(tipo.getCodigo() == repositorioTipo.get(i).getCodigo()) {
-				throw new Exception("Já existe um tipo com esse código!");
+			if(tipo.getNome().equals(repositorioTipo.get(i).getNome())) {
+				throw new Exception("Já existe um tipo com esse nome!");
 			}
 		}
+		tipo.setCodigo(proxId);
+		proxId++;
 		tipoBD.adicionar(tipo);
 		repositorioTipo = tipoBD.consultar();
 	}
@@ -92,23 +95,31 @@ public class ControladorTipoProduto {
 		}
 	}
 	
-	
 	@SuppressWarnings("unchecked")
-	private void gerarTabela() throws Exception{
+	private Integer gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
-		this.repositorioProduto = new List[size];
+		int maior = 0;
 		for(int i = 0; i < size; i++) {
+			var tipo = repositorioTipo.get(i);
+			if(tipo.getCodigo() > maior) {
+				maior = tipo.getCodigo();
+			}
+		}
+		this.repositorioProduto = new List[maior + 1];
+		for(int i = 0; i < maior + 1; i++) {
 			this.repositorioProduto[i] = new List<Produto>();
 		}
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
-				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
+				var produto = lista.get(i);
+				this.repositorioProduto[produto.hashCode()].addLast(produto);
 			} catch (Exception e) {
 				throw new Exception("Ocorreu um erro ao carregar os produtos!");
 			}
 		}
+		return maior + 1;
 	}
 
 	public List<Produto> consultaPorTipo(TipoProduto tipo){

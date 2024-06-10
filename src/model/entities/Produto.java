@@ -60,6 +60,11 @@ public class Produto {
 		this.tipo = tipo;
 	}
 	
+	@Override
+	public int hashCode() {
+		return tipo.getCodigo();
+	}
+
 	public String toString() {
 		return codigo + ","
 				+ nome + ","

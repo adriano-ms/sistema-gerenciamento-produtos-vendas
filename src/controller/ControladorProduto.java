@@ -55,12 +55,14 @@ public class ControladorProduto {
 	public Produto consultarProduto(int codigo) throws Exception {
 		try {
 			for(List<Produto> produtos : repositorioProduto) {
-				int size = produtos.size();
-				for(int i = 0; i < size; i++) {
-					var produto = produtos.get(i);
-					if(produto.getCodigo() == codigo) {
-						return produto;
-					}
+				if (!produtos.isEmpty()) {
+					int size = produtos.size();
+					for (int i = 0; i < size; i++) {
+						var produto = produtos.get(i);
+						if (produto.getCodigo() == codigo) {
+							return produto;
+						}
+					} 
 				}	
 			}
 		} catch (Exception e) {
@@ -72,12 +74,15 @@ public class ControladorProduto {
 	public Produto consultarProduto(String nome) throws Exception {
 		try {
 			for(List<Produto> produtos : repositorioProduto) {
-				int size = produtos.size();
-				for(int i = 0; i < size; i++) {
-					var produto = produtos.get(i);
-					if(produto.getNome().contains(nome)) {
-						return produto;
-					}
+				if (!produtos.isEmpty()) {
+					System.out.println("Aqui");
+					int size = produtos.size();
+					for (int i = 0; i < size; i++) {
+						var produto = produtos.get(i);
+						if (produto.getNome().contains(nome)) {
+							return produto;
+						}
+					} 
 				}	
 			}
 		} catch (Exception e) {
@@ -104,17 +109,6 @@ public class ControladorProduto {
 	}
 	
 	public List<TipoProduto> listarTipos() throws Exception {
-		/*
-		try {
-			TipoProduto[] tipos = new TipoProduto[repositorioTipo.size()];
-			int size = tipos.length;
-			for(int i = 0; i < size; i++) {
-				tipos[i] = repositorioTipo.get(i);
-			}
-			return tipos;
-		} catch (Exception e) {
-			throw new Exception("Ocorreu um erro exibir os tipos de produtos!");
-		}*/
 		return this.repositorioTipo;
 	}
 	
@@ -143,15 +137,23 @@ public class ControladorProduto {
 	@SuppressWarnings("unchecked")
 	private void gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
-		this.repositorioProduto = new List[size];
+		int maior = 0;
 		for(int i = 0; i < size; i++) {
+			var tipo = repositorioTipo.get(i);
+			if(tipo.getCodigo() > maior) {
+				maior = tipo.getCodigo();
+			}
+		}
+		this.repositorioProduto = new List[maior + 1];
+		for(int i = 0; i < maior + 1; i++) {
 			this.repositorioProduto[i] = new List<Produto>();
 		}
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
-				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
+				var produto = lista.get(i);
+				this.repositorioProduto[produto.hashCode()].addLast(produto);
 			} catch (Exception e) {
 				throw new Exception("Ocorreu um erro ao carregar os produtos!");
 			}
@@ -162,9 +164,11 @@ public class ControladorProduto {
 		List<Produto> lista = new List<Produto>();
 		int tamanhoTabela = repositorioProduto.length;
 		for(int i = 0; i < tamanhoTabela; i++) {
-			int size = repositorioProduto[i].size();
-			for(int j = 0; j < size; j++) {
-				lista.addLast(repositorioProduto[i].get(j));
+			if (repositorioProduto[i] != null) {
+				int size = repositorioProduto[i].size();
+				for (int j = 0; j < size; j++) {
+					lista.addLast(repositorioProduto[i].get(j));
+				} 
 			}	
 		}
 		return lista;

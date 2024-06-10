@@ -139,7 +139,8 @@ public class ControladorCliente {
 			if (cliente instanceof PessoaFisica) {
 				size = repositorioPF.size();
 				for (int i = 0; i < size; i++) {
-					if (cliente.getId() == id) {
+					var entidade = repositorioPF.get(i);
+					if (entidade.getId() == id) {
 						repositorioPF.remove(i);
 						repositorioPF.add((PessoaFisica) cliente, i);
 						pessoaFisicaBD.alterar(repositorioPF);
@@ -148,7 +149,8 @@ public class ControladorCliente {
 			} else if (cliente instanceof PessoaJuridica){
 				size = repositorioPJ.size();
 				for (int i = 0; i < size; i++) {
-					if (cliente.getId() == id) {
+					var entidade = repositorioPJ.get(i);
+					if (entidade.getId() == id) {
 						repositorioPJ.remove(i);
 						repositorioPJ.add((PessoaJuridica) cliente, i);
 						pessoaJuridicaBD.alterar(repositorioPJ);
