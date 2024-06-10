@@ -1,36 +1,41 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.AbstractCellEditor;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.AbstractCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-import javax.swing.JTable;
-import view.Carrinho;
+import br.edu.fateczl.list.List;
+import controller.ControladorCompra;
+import controller.ControladorProduto;
+import model.entities.Cliente;
+import model.entities.Produto;
 
 public class ComprarProduto extends JFrame {
 
@@ -40,26 +45,6 @@ public class ComprarProduto extends JFrame {
 	private JTable tblProduto;
 	private JTable tblCarrinho;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Carrinho carrinho = new Carrinho();
-					ComprarProduto frame = new ComprarProduto(carrinho.getTblCarrinho(), carrinho);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public ComprarProduto(JTable tblCarrinho, Carrinho carrinho) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 572, 390);
@@ -86,6 +71,8 @@ public class ComprarProduto extends JFrame {
 		btnSair.setFont(new Font("Cambria", Font.PLAIN, 14));
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new Main().setVisible(true);
 			}
 		});
 		btnSair.setBounds(10, 22, 70, 23);
@@ -97,17 +84,33 @@ public class ComprarProduto extends JFrame {
 		lblComprarProdutos.setBounds(175, 11, 219, 41);
 		pnlComprarProduto.add(lblComprarProdutos);
 		
-		JButton btnCarrinho = new JButton("New button");
+		Icon icone = new ImageIcon(new ImageIcon("img/carrinho.png").getImage().getScaledInstance(35, 35, EXIT_ON_CLOSE));
+		JButton btnCarrinho = new JButton(icone);
 		btnCarrinho.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				carrinho.setVisible(true);;
 			}
 		});
-		btnCarrinho.setIcon(new ImageIcon("C:\\Users\\kln\\eclipse-workspace\\sistema-gerencimaneto-vendas\\icons\\trolley.png"));
 		btnCarrinho.setBounds(470, 18, 56, 36);
 		pnlComprarProduto.add(btnCarrinho);
 		
-		  JComboBox<String> cbxCliente = new JComboBox<String>();
+		String[] items = null;
+		try {			
+			var clientes = new ControladorCompra().listarClientes();
+			items = new String[clientes.size()];
+			for(int i = 0; i < items.length; i++) {
+				Cliente cliente = clientes.get(i);
+				items[i] = cliente.getId()+" - "+"("+cliente.getClass().getSimpleName()+")"
+						+" - "+cliente.getNome();
+			}
+		} catch (Exception e) {
+			System.err.println("Não foi possivel carregar os Clientes!");
+			e.printStackTrace();
+		}
+		
+		DefaultComboBoxModel<String> modelCliente = new DefaultComboBoxModel<>(items);
+		JComboBox<String> cbxCliente = new JComboBox<>(modelCliente);
+		
 	        cbxCliente.addFocusListener(new FocusListener() {
 	            @Override
 	            public void focusGained(FocusEvent e) {
@@ -123,14 +126,10 @@ public class ComprarProduto extends JFrame {
 	                }
 	            }
 	        });
+	        
 	        cbxCliente.setBounds(0, 65, 536, 22);
 	        panel.add(cbxCliente);
-		
-	        txtCodigoProduto = new PlaceholderTextField("Código Produto");
-	        txtCodigoProduto.setBounds(0, 85, 536, 22);
-	        panel.add(txtCodigoProduto);
-	        txtCodigoProduto.setColumns(10);
-	        
+
 	        // Criando a tabela com um modelo de tabela personalizado
 	        ProdutoTableModel model = new ProdutoTableModel();
 	        tblProduto = new JTable(model);
@@ -139,6 +138,49 @@ public class ComprarProduto extends JFrame {
 	        JScrollPane scrollPane = new JScrollPane(tblProduto); // Adicionando a tabela em um JScrollPane
 	        scrollPane.setBounds(0, 107, 536, 222);
 	        panel.add(scrollPane);
+		
+	        txtCodigoProduto = new PlaceholderTextField("Código Produto");
+	        txtCodigoProduto.setBounds(0, 85, 536, 22);
+	        txtCodigoProduto.addKeyListener(new KeyListener() {
+				
+				@Override
+				public void keyTyped(KeyEvent e) {
+				}
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					// TODO Auto-generated method stub
+					char caractere = e.getKeyChar();
+					if(!Character.isDigit(caractere)) {
+						txtCodigoProduto.setText("");
+						model.setData(model.loadData());
+					}else {
+						try {
+							ControladorProduto ctrlProduto = new ControladorProduto();
+							Produto produto = ctrlProduto.consultarProduto(Integer.parseInt(txtCodigoProduto.getText()));
+							model.clearTable();
+							model.setValueAt(produto.getCodigo(), 0, 0);
+							model.setValueAt(produto.getNome(), 0, 1);
+							model.setValueAt(produto.getTipo().getNome(), 0, 2);
+							model.setValueAt(produto.getQtdEmEstoque(), 0, 3);
+							model.setValueAt(produto.getValor(), 0, 4);
+							model.setValueAt(null, 0, 5);
+						} catch (Exception e1) {
+							System.err.println("Produto digitado não foi encontrado");
+						}
+					}
+					
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+	        panel.add(txtCodigoProduto);
+	        txtCodigoProduto.setColumns(10);
+	        
 	}
 	
 	
@@ -147,13 +189,62 @@ public class ComprarProduto extends JFrame {
     class ProdutoTableModel extends AbstractTableModel {
         private static final long serialVersionUID = 1L;
         private String[] columnNames = {"Código", "Nome", "Tipo de Produto", "Qtd em Estoque", "Valor", "Adicionar"};
-        private Object[][] data = {
-                {"123", "Produto 1", "Tipo 1", 10, 20.00, null},
-                {"456", "Produto 2", "Tipo 2", 20, 30.00, null},
-                {"789", "Produto 3", "Tipo 3", 30, 40.00, null}
-        };
+        private Object[][] data;
+//        {
+//                {"123", "Produto 1", "Tipo 1", 10, 20.00, null}
+////                {"456", "Produto 2", "Tipo 2", 20, 30.00, null},
+////                {"789", "Produto 3", "Tipo 3", 30, 40.00, null}
+//        };
+        
+        public ProdutoTableModel() {
+        	data = loadData();
+        }
 
-        public int getColumnCount() {
+        public Object[][] loadData() {
+        	System.out.println("CHAMOU");
+        	Object[][] dataCliente=null;
+			try {
+				System.out.println("Entrou");
+				ControladorCompra ctrlCompra = new ControladorCompra();
+				List<Produto> list = ctrlCompra.listarProdutos();
+				dataCliente = new Object[list.size()][6];
+				int size = list.size();
+				for (int i = 0; i < size; i++) {
+					Produto prod = list.get(i);
+					dataCliente[i][0] = prod.getCodigo();
+					dataCliente[i][1] = prod.getNome();
+					dataCliente[i][2] = "tipo "+Integer.toString(i+1);
+					dataCliente[i][3] = prod.getQtdEmEstoque();
+					dataCliente[i][4] = prod.getValor();
+					dataCliente[i][5] = null;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return dataCliente;
+		}
+        
+        public void clearTable() {
+			try {
+				for (int i = 0; i < data.length; i++) {
+						for (int j = 0; j < columnNames.length; j++) {
+							this.setValueAt(null, i, j);
+						}
+					}
+			
+			}catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        public void setData(Object[][] obj) {
+        	this.data = obj;
+        	fireTableDataChanged();
+        }
+
+		public int getColumnCount() {
             return columnNames.length;
         }
 

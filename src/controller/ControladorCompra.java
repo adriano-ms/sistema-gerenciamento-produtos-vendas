@@ -23,6 +23,7 @@ public class ControladorCompra {
 	private Integer proxId;
 
 	public ControladorCompra() throws Exception {
+		this.compraBD = new CompraBD();
 		this.produtoBD = new ProdutoBD();
 		this.pessoaFisicaBD = new PessoaFisicaBD();
 		this.pessoaJuridicaBD = new PessoaJuridicaBD();
@@ -46,6 +47,7 @@ public class ControladorCompra {
 
 	private Integer definirProxId() throws Exception {
 		List<Compra> repositorioCompra = compraBD.consultar();
+
 		int size = repositorioCompra.size();
 		if (size == 0) {
 			return 0;
