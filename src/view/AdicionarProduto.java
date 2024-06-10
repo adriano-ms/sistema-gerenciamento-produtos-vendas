@@ -22,6 +22,7 @@ import javax.swing.text.NumberFormatter;
 
 import controller.ControladorProduto;
 import model.entities.Produto;
+import model.entities.TipoProduto;
 
 public class AdicionarProduto extends JFrame {
 
@@ -126,7 +127,7 @@ public class AdicionarProduto extends JFrame {
 		String[] items = new String[tipoProduto.size()];
 		
 		for(int i = 0; i < items.length; i++) {
-			items[i] = tipoProduto.get(i).getNome();
+			items[i] = tipoProduto.get(i).getCodigo() + " - " + tipoProduto.get(i).getNome();
 		}
 		
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(items);
@@ -147,21 +148,28 @@ public class AdicionarProduto extends JFrame {
 		JButton btnAdicionarProduto = new JButton("Adicionar Produto +");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Produto produto = new Produto();
-				produto.setCodigo(Integer.valueOf(txtCodigoProduto.getText()));
-				produto.setNome(txtNomeProduto.getText());
-				produto.setDescricao(txtDescricao.getText());
-				produto.setQtdEmEstoque(Integer.valueOf(txtQuantidade.getText()));
-				produto.setValor(Double.valueOf(txtValor.getText()));
-				
-				try {
-					ctrlProd.adicionarProduto(produto);
+					try {
+					Produto produto = new Produto();
+					produto.setCodigo(Integer.valueOf(txtCodigoProduto.getText()));
+					produto.setNome(txtNomeProduto.getText());
+					produto.setDescricao(txtDescricao.getText());
+					produto.setQtdEmEstoque(Integer.valueOf(txtQuantidade.getText()));
+					produto.setValor(Double.valueOf(txtValor.getText()));
+					
+					int codTipo = Integer.parseInt(String.valueOf(((String)cbxTipoProduto.getSelectedItem()).charAt(0)));
+					int size = tipoProduto.size();
+					for(int i = 0; i < size; i++) {
+						var tipo = tipoProduto.get(i);
+						if(tipo.getCodigo() == codTipo) {
+							produto.setTipo(tipo);
+						}
+					}
+					
+						ctrlProd.adicionarProduto(produto);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
-				
-				
 			}
 		});
 		btnAdicionarProduto.setFont(new Font("Cambria", Font.PLAIN, 18));

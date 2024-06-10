@@ -153,7 +153,8 @@ public class ControladorProduto {
 			try {
 				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
 			} catch (Exception e) {
-				throw new Exception("Ocorreu um erro ao carregar os produtos!");
+				//throw new Exception("Ocorreu um erro ao carregar os produtos!");
+				e.printStackTrace();
 			}
 		}
 	}
