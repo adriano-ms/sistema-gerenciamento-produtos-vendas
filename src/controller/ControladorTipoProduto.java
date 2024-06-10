@@ -1,17 +1,23 @@
 package controller;
 
 import br.edu.fateczl.list.List;
+import model.bd.ProdutoBD;
 import model.bd.TipoProdutoBD;
+import model.entities.Produto;
 import model.entities.TipoProduto;
 
 public class ControladorTipoProduto {
 	
+	private ProdutoBD produtoBD;
 	private TipoProdutoBD tipoBD;
 	private List<TipoProduto> repositorioTipo;
+	private List<Produto>[] repositorioProduto;
 	
-	public ControladorTipoProduto() {
+	public ControladorTipoProduto() throws Exception {
 		this.tipoBD = new TipoProdutoBD();
 		this.repositorioTipo = tipoBD.consultar();
+		this.produtoBD = new ProdutoBD();
+		gerarTabela();
 	}
 	
 	public void adicionarTipoProduto(TipoProduto tipo) throws Exception {
@@ -84,5 +90,28 @@ public class ControladorTipoProduto {
 		if(validarCampo(tipo.getNome())) {
 			throw new Exception("Nome inválido!");
 		}
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private void gerarTabela() throws Exception{
+		int size = repositorioTipo.size();
+		this.repositorioProduto = new List[size];
+		for(int i = 0; i < size; i++) {
+			this.repositorioProduto[i] = new List<Produto>();
+		}
+		List<Produto> lista = produtoBD.consultar();
+		size = lista.size();
+		for(int i = 0; i < size; i++) {
+			try {
+				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
+			} catch (Exception e) {
+				throw new Exception("Ocorreu um erro ao carregar os produtos!");
+			}
+		}
+	}
+
+	public List<Produto> consultaPorTipo(TipoProduto tipo){
+		return repositorioProduto[tipo.getCodigo()];
 	}
 }

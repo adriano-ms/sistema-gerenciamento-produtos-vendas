@@ -1,22 +1,21 @@
 package view;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import controller.ControladorProduto;
+
 
 public class GerenciarProduto extends JFrame {
 
@@ -25,26 +24,7 @@ public class GerenciarProduto extends JFrame {
 	private JTextField txtCodigoProduto;
 	private JTextField txtNomeProduto;
 
-	/**
-	 * Launch the application.
-	 */
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GerenciarProduto frame = new GerenciarProduto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public GerenciarProduto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 521, 398);
@@ -73,18 +53,7 @@ public class GerenciarProduto extends JFrame {
 		
 		txtCodigoProduto = new JTextField();
 		txtCodigoProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
-		txtCodigoProduto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				txtCodigoProduto.setText("");
-				txtCodigoProduto.setSelectedTextColor(null);
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				txtCodigoProduto.setText("00001...");
-				txtCodigoProduto.setSelectedTextColor(Color.LIGHT_GRAY);
-			}
-		});
+		
 		txtCodigoProduto.setBounds(241, 116, 120, 25);
 		panel.add(txtCodigoProduto);
 		txtCodigoProduto.setColumns(10);
@@ -97,18 +66,7 @@ public class GerenciarProduto extends JFrame {
 		
 		txtNomeProduto = new JTextField();
 		txtNomeProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
-		txtNomeProduto.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				txtNomeProduto.setText("");
-				txtNomeProduto.setSelectedTextColor(null);
-			}
-			@Override
-			public void focusLost(FocusEvent e) {
-				txtNomeProduto.setText("Nome aqui");
-				txtNomeProduto.setSelectedTextColor(Color.LIGHT_GRAY);
-			}
-		});
+	
 		txtNomeProduto.setColumns(10);
 		txtNomeProduto.setBounds(241, 172, 120, 25);
 		panel.add(txtNomeProduto);
@@ -118,11 +76,12 @@ public class GerenciarProduto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					AdicionarProduto aP = new AdicionarProduto();
+					
 					dispose();
 					aP.setVisible(true);
-				} catch (ParseException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
 				
 				
@@ -136,9 +95,36 @@ public class GerenciarProduto extends JFrame {
 		JButton btnConsultarProduto = new JButton("Consultar Produto");
 		btnConsultarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ConsultarProduto cP = new ConsultarProduto();
-				dispose();
-				cP.setVisible(true);
+				try {
+					ControladorProduto ctrlProd = new ControladorProduto();
+					
+					if (!txtCodigoProduto.getText().trim().isEmpty()) {
+						var produto = ctrlProd.consultarProduto(Integer.valueOf(txtCodigoProduto.getText()));
+						
+						ConsultarProduto cP = new ConsultarProduto(produto);
+						
+						dispose();
+						cP.setVisible(true);
+						
+					} else if (!txtNomeProduto.getText().trim().isEmpty()) {
+						var produto = ctrlProd.consultarProduto(txtNomeProduto.getText());
+						
+						ConsultarProduto cP = new ConsultarProduto(produto);
+						
+						dispose();
+						cP.setVisible(true);
+					} else {
+						throw new Exception("Preencha ao menos um campo!");
+					}
+						
+				
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
+				
+				
 											
 			}
 		});

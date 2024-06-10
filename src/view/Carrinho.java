@@ -1,37 +1,25 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
-
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class Carrinho extends JDialog {
 
@@ -58,8 +46,8 @@ public class Carrinho extends JDialog {
 	
 	public class TableModel extends AbstractTableModel {
 		
-        private final String[] columnNames = { "Name", "Value", "Quantity", "Remover" };
-        private Object[][] data = { { "Item 1", 0.0, 1, null } };
+        private final String[] columnNames = { "Name", "Value", "Quantity"};
+        private Object[][] data = { { "Item 1", 0.0, 1} };
 	   	    	    
 	    @Override
 	    public int getRowCount() {
@@ -84,9 +72,15 @@ public class Carrinho extends JDialog {
 		    }
 		 
 		 @Override
-		    public Class<?> getColumnClass(int columnIndex) {
-		        return getValueAt(0, columnIndex).getClass();
-		    }
+		 public Class<?> getColumnClass(int columnIndex) {
+		     Object value = getValueAt(0, columnIndex);
+		     if (value != null) {
+		         return value.getClass();
+		     } else {
+		         // Se o valor for nulo, retorne Object.class
+		         return Object.class;
+		     }
+		 }
 		 
 		 @Override
 		    public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -124,7 +118,7 @@ public class Carrinho extends JDialog {
 	                data = newData;
 	                fireTableDataChanged(); // Notifica a tabela de que os dados foram alterados
 	                updateTotalLabel(); // Atualiza o total no label
-	                JOptionPane.showMessageDialog(null, "apagar");
+	       
 	            }
 	        }
 		 
@@ -132,87 +126,43 @@ public class Carrinho extends JDialog {
 		   
 		
 	
-	public class SpinnerEditor extends AbstractCellEditor implements TableCellEditor {
-	    private final JSpinner spinner;
+	 
+    public class SpinnerEditor extends AbstractCellEditor implements TableCellEditor {
+        private final JSpinner spinner;
 
-	    public SpinnerEditor() {
-	        spinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
-	        spinner.addChangeListener(new ChangeListener() {
+        public SpinnerEditor() {
+            spinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
+            spinner.addChangeListener(new ChangeListener() {
                 public void stateChanged(ChangeEvent e) {
                     stopCellEditing(); // Finaliza a edição quando o valor é alterado
                 }
             });
-	    }
+        }
 
-	    @Override
-	    public Object getCellEditorValue() {
-	        return spinner.getValue();
-	    }
+        @Override
+        public Object getCellEditorValue() {
+            return spinner.getValue();
+        }
 
-	    @Override
-	    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-	        spinner.setValue(value);
-	        return spinner;
-	    }
-	}
-	
-	public class SpinnerRenderer extends JSpinner implements TableCellRenderer {
-	    public SpinnerRenderer() {
-	        super(new SpinnerNumberModel(0, 0, 100, 1));
-	    }
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            spinner.setValue(value);
+            return spinner;
+        }
+    }
+    
+    public class SpinnerRenderer extends JSpinner implements TableCellRenderer {
+        public SpinnerRenderer() {
+            super(new SpinnerNumberModel(0, 0, 100, 1));
+        }
 
-	    @Override
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	        setValue(value);
-	        return this;
-	    }
-	}
-	
-	
-	  public class ButtonRenderer extends JButton implements TableCellRenderer {
-	        public ButtonRenderer() {
-	            setOpaque(true);
-	        }
-
-	        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-	            setText("X");
-	            return this;
-	        }
-	    }
-	    
-	
-	  public class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener  {
-		    private JButton button;
-		    private int row;
-		    private JTable table; // Adicione esta linha
-
-		    public ButtonEditor(JTable table) {
-		        this.table = table; // Adicione esta linha
-		        button = new JButton("X");
-		        button.addActionListener(e -> {
-		            // Ação ao clicar no botão
-		            TableModel model = (TableModel) table.getModel(); // Use a referência à tabela
-		            model.removeRow(row);
-		            fireEditingStopped();
-		        });
-		    }
-
-		    @Override
-		    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-		        this.row = row;
-		        return button;
-		    }
-
-		    public Object getCellEditorValue() {
-		        return null;
-		    }
-
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        fireEditingStopped();
-		    }
-		}
-
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setValue(value);
+            return this;
+        }
+    }
+    
 	  
 
 	/**
@@ -231,17 +181,22 @@ public class Carrinho extends JDialog {
 			getContentPane().add(panel);
 			panel.setLayout(null);
 			
+<<<<<<< HEAD
 			JButton btnRemoverUltimaLinha = new JButton("Remover Última Linha");
 			btnRemoverUltimaLinha.addActionListener(new ActionListener() {
+=======
+			JButton btnRemover = new JButton("Remover");
+			btnRemover.addActionListener(new ActionListener() {
+>>>>>>> 59f29fb2db621d498a376d90579f3d3de2e3d9ca
 			    public void actionPerformed(ActionEvent e) {
 			        TableModel model = (TableModel) tblCarrinho.getModel(); // Obtém o modelo de tabela da tabela
 			        int lastRow = model.getRowCount() - 1; // Obtém o índice da última linha
 			        model.removeRow(lastRow); // Remove a última linha do modelo de tabela
 			    }
 			});
-			btnRemoverUltimaLinha.setFont(new Font("Cambria", Font.PLAIN, 14));
-			btnRemoverUltimaLinha.setBounds(62, 190, 170, 23);
-			panel.add(btnRemoverUltimaLinha);
+			btnRemover.setFont(new Font("Cambria", Font.PLAIN, 14));
+			btnRemover.setBounds(81, 177, 109, 23);
+			panel.add(btnRemover);
 			
 			JScrollPane scrollPane = new JScrollPane();
 			scrollPane.setBounds(0, 29, 341, 133);
@@ -258,12 +213,16 @@ public class Carrinho extends JDialog {
 			getTblCarrinho().getColumnModel().getColumn(2).setCellEditor(spinnerEditor);
 			getTblCarrinho().getColumnModel().getColumn(2).setCellRenderer(new SpinnerRenderer());
 			
+<<<<<<< HEAD
 			/*
 			TableColumn removeColumn = tblCarrinho.getColumnModel().getColumn(3);
 			removeColumn.setCellRenderer(new ButtonRenderer());
 			removeColumn.setCellEditor(new ButtonEditor(tblCarrinho));
 			*/
 		
+=======
+					
+>>>>>>> 59f29fb2db621d498a376d90579f3d3de2e3d9ca
 	        
 			JPanel panel_1 = new JPanel();
 			panel_1.setBackground(new Color(192, 192, 192));
@@ -283,18 +242,8 @@ public class Carrinho extends JDialog {
 		        
 		        JButton btnFecharCompra = new JButton("Fechar Compra");
 		        btnFecharCompra.setFont(new Font("Cambria", Font.PLAIN, 14));
-		        btnFecharCompra.setBounds(200, 177, 131, 23);
+		        btnFecharCompra.setBounds(206, 177, 125, 23);
 		        panel.add(btnFecharCompra);
-		        
-		        JButton btnEsconder = new JButton("Esconder");
-		        btnEsconder.addActionListener(new ActionListener() {
-		        	public void actionPerformed(ActionEvent e) {
-		        		Carrinho.this.setVisible(false);
-		        	}
-		        });
-		        btnEsconder.setFont(new Font("Cambria", Font.PLAIN, 14));
-		        btnEsconder.setBounds(92, 176, 98, 23);
-		        panel.add(btnEsconder);
 
 			
            

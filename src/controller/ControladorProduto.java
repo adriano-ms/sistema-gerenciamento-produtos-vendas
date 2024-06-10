@@ -22,8 +22,12 @@ public class ControladorProduto {
 
 	public void adicionarProduto(Produto produto) throws Exception {
 		validarDados(produto);
+
+		
 		for(List<Produto> produtos : repositorioProduto) {
+			
 			int size = produtos.size();
+			
 			for(int i = 0; i < size; i++) {
 				if(produto.getCodigo() == produtos.get(i).getCodigo()) {
 					throw new Exception("Já existe um produto com esse código!");
@@ -80,10 +84,6 @@ public class ControladorProduto {
 			throw new Exception("Ocorreu um erro na consulta do produto!");
 		}
 		throw new Exception("Produto não encontrado!");
-	}
-	
-	public List<Produto> consultaPorTipo(TipoProduto tipo){
-		return repositorioProduto[tipo.getCodigo()];
 	}
 	
 	public void atualizarEstoque(Produto produto, int qtde) throws Exception {
@@ -144,11 +144,13 @@ public class ControladorProduto {
 	private void gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
 		this.repositorioProduto = new List[size];
+		for(int i = 0; i < size; i++) {
+			this.repositorioProduto[i] = new List<Produto>();
+		}
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
-				this.repositorioProduto[i] = new List<Produto>();
 				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
 			} catch (Exception e) {
 				throw new Exception("Ocorreu um erro ao carregar os produtos!");

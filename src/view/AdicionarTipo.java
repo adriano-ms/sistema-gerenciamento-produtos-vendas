@@ -1,18 +1,21 @@
 package view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import model.entities.TipoProduto;
+import controller.ControladorTipoProduto;
 
 public class AdicionarTipo extends JFrame {
 
@@ -63,40 +66,57 @@ public class AdicionarTipo extends JFrame {
 		JLabel lblCodigoDoTipo = new JLabel("Código do Tipo:");
 		lblCodigoDoTipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCodigoDoTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblCodigoDoTipo.setBounds(82, 84, 156, 32);
+		lblCodigoDoTipo.setBounds(82, 120, 156, 32);
 		panel.add(lblCodigoDoTipo);
 		
 		txtCodigoTipo = new JTextField();
 		txtCodigoTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
 		txtCodigoTipo.setColumns(10);
-		txtCodigoTipo.setBounds(257, 91, 120, 25);
+		txtCodigoTipo.setBounds(257, 127, 120, 25);
 		panel.add(txtCodigoTipo);
 		
 		JLabel lblNomeDoTipo = new JLabel("Nome do Tipo:");
 		lblNomeDoTipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNomeDoTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblNomeDoTipo.setBounds(82, 127, 156, 32);
+		lblNomeDoTipo.setBounds(82, 163, 156, 32);
 		panel.add(lblNomeDoTipo);
 		
 		txtNomeTipo = new JTextField();
 		txtNomeTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
 		txtNomeTipo.setColumns(10);
-		txtNomeTipo.setBounds(257, 130, 224, 25);
+		txtNomeTipo.setBounds(257, 166, 224, 25);
 		panel.add(txtNomeTipo);
 		
-		JLabel lblDescricao = new JLabel("Descrição");
-		lblDescricao.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescricao.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblDescricao.setBounds(82, 170, 156, 32);
-		panel.add(lblDescricao);
-		
-		JTextArea txtADescricao = new JTextArea();
-		txtADescricao.setBounds(257, 177, 224, 65);
-		panel.add(txtADescricao);
-		
 		JButton btnAdicionarTipo = new JButton("Adicionar Tipo +");
+		btnAdicionarTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				try {
+					ControladorTipoProduto ctrlTpProd = new ControladorTipoProduto();
+					TipoProduto tipoProduto = new TipoProduto();
+					
+					tipoProduto.setCodigo(Integer.valueOf(txtCodigoTipo.getText()));
+					tipoProduto.setNome(txtNomeTipo.getText());
+					ctrlTpProd.adicionarTipoProduto(tipoProduto);
+					JOptionPane.showMessageDialog(null, "Inserção feita com sucesso!");
+					
+					dispose();
+					new GerenciarTipoProduto().setVisible(true);
+					
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1);
+				}
+				
+				
+				
+				
+				
+			}
+		});
 		btnAdicionarTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnAdicionarTipo.setBounds(67, 277, 201, 32);
+		btnAdicionarTipo.setBounds(70, 247, 201, 32);
 		panel.add(btnAdicionarTipo);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -107,7 +127,7 @@ public class AdicionarTipo extends JFrame {
 			}
 		});
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnVoltar.setBounds(309, 277, 189, 32);
+		btnVoltar.setBounds(312, 247, 189, 32);
 		panel.add(btnVoltar);
 	}
 

@@ -1,17 +1,22 @@
 package view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import controller.ControladorCliente;
+import model.entities.PessoaFisica;
+import model.entities.PessoaJuridica;
 
 public class GerenciarCliente extends JFrame {
 
@@ -84,8 +89,36 @@ public class GerenciarCliente extends JFrame {
 		JButton btnConsultarCliente = new JButton("Consultar Cliente");
 		btnConsultarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ConsultarCliente().setVisible(true);
-				dispose();
+				
+				try {
+					ControladorCliente ctrlCli = new ControladorCliente();
+					
+				if (!txtCodigoCliente.getText().isEmpty()) {
+					var cliente = ctrlCli.consultar(Integer.valueOf(txtCodigoCliente.getText()));
+					
+					if(cliente instanceof PessoaJuridica) {
+						ConsultarPessoaJuridica CPJ = new ConsultarPessoaJuridica((PessoaJuridica) cliente); 
+						dispose();
+						CPJ.setVisible(true);
+						
+					} else if (cliente instanceof PessoaFisica) {
+						ConsultarPessoaFisica CPF = new ConsultarPessoaFisica((PessoaFisica) cliente); 
+						dispose();
+						CPF.setVisible(true);
+						
+					} 
+				} else {
+						throw new Exception("Campo deve ser preenchido");
+					}
+					
+				
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1);
+				}
+				
+		
 			}
 		});
 		btnConsultarCliente.setFont(new Font("Cambria", Font.PLAIN, 18));
