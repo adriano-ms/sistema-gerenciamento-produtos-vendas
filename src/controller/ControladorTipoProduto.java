@@ -106,16 +106,17 @@ public class ControladorTipoProduto {
 			}
 		}
 		this.repositorioProduto = new List[maior + 1];
+		for(int i = 0; i < maior + 1; i++) {
+			this.repositorioProduto[i] = new List<Produto>();
+		}
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
 				var produto = lista.get(i);
-				this.repositorioProduto[produto.getTipo().getCodigo()] = new List<Produto>();
-				this.repositorioProduto[produto.getTipo().getCodigo()].addLast(produto);
+				this.repositorioProduto[produto.hashCode()].addLast(produto);
 			} catch (Exception e) {
-				//throw new Exception("Ocorreu um erro ao carregar os produtos!");
-				e.printStackTrace();
+				throw new Exception("Ocorreu um erro ao carregar os produtos!");
 			}
 		}
 		return maior + 1;

@@ -153,10 +153,9 @@ public class ControladorProduto {
 		for(int i = 0; i < size; i++) {
 			try {
 				var produto = lista.get(i);
-				this.repositorioProduto[produto.getTipo().getCodigo()].addLast(produto);
+				this.repositorioProduto[produto.hashCode()].addLast(produto);
 			} catch (Exception e) {
-				//throw new Exception("Ocorreu um erro ao carregar os produtos!");
-				e.printStackTrace();
+				throw new Exception("Ocorreu um erro ao carregar os produtos!");
 			}
 		}
 	}
