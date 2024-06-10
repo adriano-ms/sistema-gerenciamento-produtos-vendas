@@ -24,7 +24,7 @@ public class EnderecoBD implements IDatabaseAccess<Endereco>{
 
 	@Override
 	public void alterar(List<Endereco> enderecosAtualizados) {
-		database.gravarNoArquivo(filename, enderecosAtualizados);
+		database.alterarArquivo(filename, enderecosAtualizados);
 	}
 	
 	private List<Endereco> carregarListaEndereco(){
