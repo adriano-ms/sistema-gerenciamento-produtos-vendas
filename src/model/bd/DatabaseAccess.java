@@ -76,9 +76,15 @@ public class DatabaseAccess {
 		filename = filename.toLowerCase();
 		Path file = Paths.get(defaultFolder.toString(), filename);
 				
-		if(Files.notExists(file)) {
-			System.out.println("LOG - Arquivo não existe");
-			criarArquivo(file, objeto);
+		try {			
+			if(Files.notExists(file)) {
+				System.out.println("LOG - Arquivo não existe");
+				criarArquivo(file, objeto);
+			}else if(Files.size(file)<=0) {
+				escreverCabecalho(file, objeto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		try {
