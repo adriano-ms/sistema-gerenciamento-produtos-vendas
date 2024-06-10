@@ -233,10 +233,11 @@ public class Carrinho extends JDialog {
 			
 			JButton btnRemoverUltimaLinha = new JButton("Remover Última Linha");
 			btnRemoverUltimaLinha.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					TableModel model = new TableModel();  
-					model.removeRow(1);
-				}
+			    public void actionPerformed(ActionEvent e) {
+			        TableModel model = (TableModel) tblCarrinho.getModel(); // Obtém o modelo de tabela da tabela
+			        int lastRow = model.getRowCount() - 1; // Obtém o índice da última linha
+			        model.removeRow(lastRow); // Remove a última linha do modelo de tabela
+			    }
 			});
 			btnRemoverUltimaLinha.setFont(new Font("Cambria", Font.PLAIN, 14));
 			btnRemoverUltimaLinha.setBounds(62, 190, 170, 23);
@@ -253,13 +254,15 @@ public class Carrinho extends JDialog {
 			getTblCarrinho().setModel(model); // Defina o modelo para a tabela
 			scrollPane.setViewportView(getTblCarrinho());
 			SpinnerEditor spinnerEditor = new SpinnerEditor();
+
 			getTblCarrinho().getColumnModel().getColumn(2).setCellEditor(spinnerEditor);
 			getTblCarrinho().getColumnModel().getColumn(2).setCellRenderer(new SpinnerRenderer());
 			
+			/*
 			TableColumn removeColumn = tblCarrinho.getColumnModel().getColumn(3);
 			removeColumn.setCellRenderer(new ButtonRenderer());
 			removeColumn.setCellEditor(new ButtonEditor(tblCarrinho));
-			
+			*/
 		
 	        
 			JPanel panel_1 = new JPanel();
