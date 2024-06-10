@@ -32,7 +32,7 @@ public class ConsultarPessoaJuridica extends JFrame {
 	private JTextField txtEmail;
 
 	
-	public ConsultarPessoaJuridica(PessoaJuridica pj) {
+	public ConsultarPessoaJuridica(ControladorCliente controlador, PessoaJuridica pj) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 426);
@@ -144,9 +144,10 @@ public class ConsultarPessoaJuridica extends JFrame {
 					ControladorCliente CC = new ControladorCliente();
 					
 					CC.remover(pj.getId());
-					
+					JOptionPane.showMessageDialog(null, "Cliente excluído com sucesso!");
+					new GerenciarCliente().setVisible(true);
+					dispose();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e1);
 				}
 				
@@ -160,8 +161,6 @@ public class ConsultarPessoaJuridica extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ControladorCliente CC = new ControladorCliente();
-					//Método de salvar
 					txtNomeCliente.setEnabled(false);
 					txtCNPJ.setEnabled(false);
 					txtTelefone.setEnabled(false);
@@ -180,7 +179,7 @@ public class ConsultarPessoaJuridica extends JFrame {
 					pj.setCnpj(txtCNPJ.getText());
 					pj.setEmail(txtEmail.getText());
 					
-					CC.editar(pj);
+					controlador.editar(pj);
 									
 					
 					JOptionPane.showMessageDialog(null, "Cliente Salvo com sucesso");
@@ -204,6 +203,7 @@ public class ConsultarPessoaJuridica extends JFrame {
 				txtCEP.setEnabled(true);
 				txtNumero.setEnabled(true);
 				txtComplemento.setEnabled(true);
+				txtEmail.setEnabled(true);
 				btnEditar.setEnabled(false);
 			}
 		});
@@ -252,6 +252,7 @@ public class ConsultarPessoaJuridica extends JFrame {
 				txtCEP.setEnabled(false);
 				txtNumero.setEnabled(false);
 				txtComplemento.setEnabled(false);
+				txtEmail.setEnabled(false);
 			}
 		});
 	}

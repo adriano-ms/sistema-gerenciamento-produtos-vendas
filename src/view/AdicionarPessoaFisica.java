@@ -40,7 +40,7 @@ public class AdicionarPessoaFisica extends JFrame {
 	private JButton btnVoltar;
 	private JButton btnCadastrar;
 
-	public AdicionarPessoaFisica() {
+	public AdicionarPessoaFisica(ControladorCliente controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 426);
 		contentPane = new JPanel();
@@ -147,7 +147,7 @@ public class AdicionarPessoaFisica extends JFrame {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AdicionarCliente().setVisible(true);
+				new AdicionarCliente(controlador).setVisible(true);
 				dispose();
 			}
 		});
@@ -160,7 +160,6 @@ public class AdicionarPessoaFisica extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				PessoaFisica pf = new PessoaFisica();
 				try {
-					ControladorCliente CC = new ControladorCliente();
 					pf.setEndereco(new Endereco());
 					pf.setNome(txtNomeCliente.getText());
 					pf.getEndereco().setCep(txtCEP.getText());
@@ -171,14 +170,13 @@ public class AdicionarPessoaFisica extends JFrame {
 					pf.setCelular(txtCelular.getText());
 					pf.setCpf(txtCPF.getText());
 
-					CC.cadastrar(pf);
+					controlador.cadastrar(pf);
 
 					JOptionPane.showMessageDialog(null, "Cadastro feito com sucesso!");
 					GerenciarCliente GC = new GerenciarCliente();
 					dispose();
 					GC.setVisible(true);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e1);
 				}
 
