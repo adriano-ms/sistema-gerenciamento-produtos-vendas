@@ -53,7 +53,7 @@ public class ControladorCompra {
 		StringBuffer buffer = new StringBuffer();
 		double total = 0;
 		buffer.append("RESUMO DA COMPRA:\n");
-		buffer.append("NOME\tVALOR\tQTDE.");
+		buffer.append("NOME\tVALOR\tQTDE.\n");
 		for(int i = 0; i < linhas; i++) {
 			var ent = fila.remove();
 			buffer.append(ent.getProduto().getNome() + "\t" + String.format("R$.2f", ent.getProduto().getValor()) +  "\t" + ent.getQuantidade() + "\n");
