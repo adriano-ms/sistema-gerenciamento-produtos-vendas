@@ -14,6 +14,8 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControladorCliente;
+
 public class AdicionarCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -21,7 +23,7 @@ public class AdicionarCliente extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 
 	
-	public AdicionarCliente() {
+	public AdicionarCliente(ControladorCliente controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 536, 316);
 		contentPane = new JPanel();
@@ -63,11 +65,11 @@ public class AdicionarCliente extends JFrame {
 		btnAvancar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rdbtnPessoaFisica.isSelected()) {
-					new AdicionarPessoaFisica().setVisible(true);
+					new AdicionarPessoaFisica(controlador).setVisible(true);
 					dispose();
 				}
 				else if (rdbtnPessoaJuridica.isSelected()) {
-					new AdicionarPessoaJuridica().setVisible(true);
+					new AdicionarPessoaJuridica(controlador).setVisible(true);
 					dispose();
 				}
 				else {
