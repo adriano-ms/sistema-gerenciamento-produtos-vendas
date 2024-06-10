@@ -42,10 +42,13 @@ public class ControladorCompra {
 		Carrinho carrinho = new Carrinho();
 		int linhas = itens.length;
 		for(int i = 0; i < linhas; i++) {
-			carrinho.adicionarProduto(buscarProduto((String)itens[i][0]), Integer.parseInt((String)itens[i][2]), proxId);
+			int qtde = Integer.parseInt((String)itens[i][2]);
+			var produto = pegarProduto((String)itens[i][0], qtde);
+			carrinho.adicionarProduto(produto, qtde, proxId);
 		}
 		carrinho.finalizarCompra(proxId, null, cliente);
 		proxId++;
+		produtoBD.alterar(repositorioProduto);
 		Queue<ItemCompra> fila = new Queue<>();
 		for(ItemCompra item : carrinho.getPilha()) {
 			fila.insert(item);
@@ -99,11 +102,12 @@ public class ControladorCompra {
 		return clientes;
 	}
 	
-	private Produto buscarProduto(String nome) throws Exception {
+	private Produto pegarProduto(String nome, int qtde) throws Exception {
 		int size = repositorioProduto.size();
 		for(int i = 0; i < size; i++) {
 			var produto = repositorioProduto.get(i);
 			if(produto.getNome().equals(nome)) {
+				repositorioProduto.get(i).setQtdEmEstoque(produto.getQtdEmEstoque() - qtde);
 				return produto;
 			}
 		}
