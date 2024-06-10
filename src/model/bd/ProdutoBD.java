@@ -53,8 +53,9 @@ public class ProdutoBD implements IDatabaseAccess<Produto> {
 				int codTipo = Integer.parseInt(dados.get(5));
 				int qtdTipos = listaTipos.size();
 				for (int j = 0; j < qtdTipos; j++) {
-					if(codTipo == listaTipos.get(i).getCodigo()) {
-						prod.setTipo(listaTipos.get(i));
+					if(codTipo == listaTipos.get(j).getCodigo()) {
+						prod.setTipo(listaTipos.get(j));
+						break;
 					}
 				}
 				listaProdutos.addLast(prod);

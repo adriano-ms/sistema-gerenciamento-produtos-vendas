@@ -1,17 +1,22 @@
 package view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import controller.ControladorCliente;
+import model.entities.Endereco;
+import model.entities.PessoaJuridica;
 
 public class AdicionarPessoaJuridica extends JFrame {
 
@@ -20,30 +25,13 @@ public class AdicionarPessoaJuridica extends JFrame {
 	private JTextField txtNomeCliente;
 	private JTextField txtLogradouro;
 	private JTextField txtCNPJ;
-	private JTextField txtCelular;
+	private JTextField txtTelefone;
 	private JTextField txtNumero;
 	private JTextField txtComplemento;
 	private JTextField txtCEP;
+	private JTextField txtEmail;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdicionarPessoaJuridica frame = new AdicionarPessoaJuridica();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public AdicionarPessoaJuridica() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 426);
@@ -58,7 +46,7 @@ public class AdicionarPessoaJuridica extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblAdicionarPessoa = new JLabel("Adicionar Cliente Pessoa Física");
+		JLabel lblAdicionarPessoa = new JLabel("Adicionar Cliente Pessoa Jurídica");
 		lblAdicionarPessoa.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdicionarPessoa.setFont(new Font("Cambria", Font.PLAIN, 24));
 		lblAdicionarPessoa.setBounds(111, 11, 350, 29);
@@ -100,17 +88,17 @@ public class AdicionarPessoaJuridica extends JFrame {
 		txtCNPJ.setBounds(134, 139, 120, 25);
 		panel.add(txtCNPJ);
 		
-		JLabel lblTelefone = new JLabel("Telefone");
+		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTelefone.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblTelefone.setBounds(57, 189, 74, 32);
 		panel.add(lblTelefone);
 		
-		txtCelular = new JTextField();
-		txtCelular.setFont(new Font("Cambria", Font.PLAIN, 18));
-		txtCelular.setColumns(10);
-		txtCelular.setBounds(134, 192, 120, 25);
-		panel.add(txtCelular);
+		txtTelefone = new JTextField();
+		txtTelefone.setFont(new Font("Cambria", Font.PLAIN, 18));
+		txtTelefone.setColumns(10);
+		txtTelefone.setBounds(134, 192, 120, 25);
+		panel.add(txtTelefone);
 		
 		JLabel lblNumero = new JLabel("Número:");
 		lblNumero.setHorizontalAlignment(SwingConstants.CENTER);
@@ -149,6 +137,37 @@ public class AdicionarPessoaJuridica extends JFrame {
 		panel.add(txtCEP);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PessoaJuridica pj = new PessoaJuridica();
+				try {
+					ControladorCliente CC = new ControladorCliente();
+					
+					pj.setNome(txtNomeCliente.getText());
+					pj.setEndereco(new Endereco());
+					pj.getEndereco().setCep(txtCEP.getText());
+					pj.getEndereco().setComplemento(txtComplemento.getText());
+					pj.getEndereco().setLogradouro(txtLogradouro.getText());
+					pj.getEndereco().setNumero(Integer.valueOf(txtNumero.getText()));
+					pj.setTelefone(txtTelefone.getText());
+					pj.setEmail(txtEmail.getText());
+					pj.setCnpj(txtCNPJ.getText());
+					
+					CC.cadastrar(pj);
+					
+					
+					JOptionPane.showMessageDialog(null, "Cadastro feito com sucesso!");
+					GerenciarCliente GC = new GerenciarCliente();
+					dispose();
+					GC.setVisible(true);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1);
+				}
+				
+			
+			}
+		});
 		btnCadastrar.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnCadastrar.setBounds(321, 310, 201, 32);
 		panel.add(btnCadastrar);
@@ -163,6 +182,18 @@ public class AdicionarPessoaJuridica extends JFrame {
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnVoltar.setBounds(49, 310, 201, 32);
 		panel.add(btnVoltar);
+		
+		txtEmail = new JTextField();
+		txtEmail.setFont(new Font("Cambria", Font.PLAIN, 18));
+		txtEmail.setColumns(10);
+		txtEmail.setBounds(134, 242, 120, 25);
+		panel.add(txtEmail);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmail.setFont(new Font("Cambria", Font.PLAIN, 18));
+		lblEmail.setBounds(57, 239, 74, 32);
+		panel.add(lblEmail);
 	}
 
 }

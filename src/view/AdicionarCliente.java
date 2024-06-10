@@ -14,31 +14,15 @@ import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ButtonGroup;
 
 public class AdicionarCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private final ButtonGroup buttonGroup = new ButtonGroup();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdicionarCliente frame = new AdicionarCliente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public AdicionarCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 536, 316);
@@ -60,11 +44,13 @@ public class AdicionarCliente extends JFrame {
 		panel.add(lblAdicionarCliente);
 		
 		JRadioButton rdbtnPessoaFisica = new JRadioButton("Pessoa Física");
+		buttonGroup.add(rdbtnPessoaFisica);
 		rdbtnPessoaFisica.setFont(new Font("Cambria", Font.PLAIN, 14));
 		rdbtnPessoaFisica.setBounds(78, 127, 134, 33);
 		panel.add(rdbtnPessoaFisica);
 		
 		JRadioButton rdbtnPessoaJuridica = new JRadioButton("Pessoa Jurídica");
+		buttonGroup.add(rdbtnPessoaJuridica);
 		rdbtnPessoaJuridica.setFont(new Font("Cambria", Font.PLAIN, 14));
 		rdbtnPessoaJuridica.setBounds(78, 163, 134, 23);
 		panel.add(rdbtnPessoaJuridica);
