@@ -50,20 +50,16 @@ public class CompraBD implements IDatabaseAccess<Compra>{
 				compra.setTipoPessoa(dados.get(2));
 				int idCliente = Integer.parseInt(dados.get(3));
 				compra.setTotal(Double.parseDouble(dados.get(4)));
-				
-				if(compra.getTipoPessoa().contains("fisica")) {
-					for (int j = 0; j < qtdClientesPF; j++) {
-						if(idCliente == listaPessoaF.get(i).getId()) {
-							compra.setCliente(listaPessoaF.get(i));
-							break;
-						}
+				for (int j = 0; j < qtdClientesPF; j++) {
+					if(idCliente == listaPessoaF.get(i).getId()) {
+						compra.setCliente(listaPessoaF.get(i));
+						break;
 					}
-				}else {
-					for (int j = 0; j < qtdClientesPJ; j++) {
-						if(idCliente == listaPessoaJ.get(i).getId()) {
-							compra.setCliente(listaPessoaJ.get(i));
-							break;
-						}
+				}
+				for (int j = 0; j < qtdClientesPJ; j++) {
+					if(idCliente == listaPessoaJ.get(i).getId()) {
+						compra.setCliente(listaPessoaJ.get(i));
+						break;
 					}
 				}
 				listaCompras.addLast(compra);

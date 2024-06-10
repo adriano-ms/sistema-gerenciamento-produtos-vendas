@@ -101,6 +101,15 @@ public class Main extends JFrame {
 		});
 		btnComprar.setBounds(216, 235, 140, 49);
 		panel.add(btnComprar);
+		
+		JButton consultarCompra = new JButton("Consultar Compras");
+		consultarCompra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConsultaCompra consultaCompra = new ConsultaCompra();
+				consultaCompra.setVisible(true);
+			}
+		});
+		consultarCompra.setBounds(10, 235, 161, 49);
+		panel.add(consultarCompra);
 	}
-
 }

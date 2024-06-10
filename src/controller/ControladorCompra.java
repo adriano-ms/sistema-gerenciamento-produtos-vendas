@@ -34,19 +34,29 @@ public class ControladorCompra {
 		this.proxId = definirProxId();
 	}
 
-	public List<Produto> listarProdutos(){
-		return this.repositorioProduto;
+	public List<Produto> listarProdutos() throws Exception{
+		List<Produto> listaFiltrada = new List<>();
+		int size = repositorioProduto.size();
+		for(int i = 0; i < size; i++) {
+			if(repositorioProduto.get(i).getQtdEmEstoque() > 0) {
+				listaFiltrada.addLast(repositorioProduto.get(i));
+			}
+		}
+		return listaFiltrada;
 	}
 
 	public String checkout(Object[][] itens, Cliente cliente) throws Exception {
+		if(itens.length == 0) {
+			throw new Exception("Carrinho vazio!");
+		}
 		Carrinho carrinho = new Carrinho();
 		int linhas = itens.length;
 		for(int i = 0; i < linhas; i++) {
-			int qtde = Integer.parseInt((String)itens[i][2]);
-			var produto = pegarProduto((String)itens[i][0], qtde);
+			int qtde = Integer.parseInt(String.valueOf(itens[i][2]));
+			var produto = pegarProduto(String.valueOf(itens[i][0]), qtde);
 			carrinho.adicionarProduto(produto, qtde, proxId);
 		}
-		carrinho.finalizarCompra(proxId, null, cliente);
+		carrinho.finalizarCompra(proxId, cliente.getClass().getSimpleName(), cliente);
 		proxId++;
 		produtoBD.alterar(repositorioProduto);
 		Queue<ItemCompra> fila = new Queue<>();
@@ -59,14 +69,16 @@ public class ControladorCompra {
 		buffer.append("NOME\tVALOR\tQTDE.\n");
 		for(int i = 0; i < linhas; i++) {
 			var ent = fila.remove();
-			buffer.append(ent.getProduto().getNome() + "\t" + String.format("R$.2f", ent.getProduto().getValor()) +  "\t" + ent.getQuantidade() + "\n");
-			total += ent.getProduto().getValor() + ent.getQuantidade();
+			String nome = ent.getProduto().getNome();
+			nome = ( nome.length() > 9 ? nome.substring(0, 8) : nome);
+			buffer.append(nome + "\t" + String.format("R$%.2f", ent.getProduto().getValor()) +  "\t" + ent.getQuantidade() + "\n");
+			total += ent.getProduto().getValor() * ent.getQuantidade();
 		}
-		buffer.append("TOTAL = " + String.format("R$.2f", total));
+		buffer.append("TOTAL = " + String.format("R$%.2f", total));
 		return buffer.toString();
 	}
 	
-	public List<Cliente> listarClientes(){
+	public List<Cliente> listarClientes() throws Exception{
 		return this.repositorioCliente;
 	}
 
@@ -107,6 +119,9 @@ public class ControladorCompra {
 		for(int i = 0; i < size; i++) {
 			var produto = repositorioProduto.get(i);
 			if(produto.getNome().equals(nome)) {
+				if(produto.getQtdEmEstoque() < qtde) {
+					throw new Exception("Estoque insuficiente!");
+				}
 				repositorioProduto.get(i).setQtdEmEstoque(produto.getQtdEmEstoque() - qtde);
 				return produto;
 			}

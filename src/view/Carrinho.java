@@ -10,6 +10,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -24,7 +25,6 @@ import javax.swing.table.TableCellRenderer;
 import br.edu.fateczl.list.List;
 import controller.ControladorCompra;
 import model.entities.Cliente;
-import model.entities.PessoaFisica;
 
 public class Carrinho extends JDialog {
 
@@ -250,8 +250,8 @@ public class Carrinho extends JDialog {
 						new ExibirPedido(pedido).setVisible(true);
 //						cp.checkout(carrinho, null);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+
 					}
 				}
 			});
