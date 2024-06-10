@@ -12,22 +12,25 @@ public class ControladorTipoProduto {
 	private TipoProdutoBD tipoBD;
 	private List<TipoProduto> repositorioTipo;
 	private List<Produto>[] repositorioProduto;
+	private Integer proxId;
 	
 	public ControladorTipoProduto() throws Exception {
 		this.tipoBD = new TipoProdutoBD();
 		this.repositorioTipo = tipoBD.consultar();
 		this.produtoBD = new ProdutoBD();
-		gerarTabela();
+		this.proxId = gerarTabela();
 	}
 	
 	public void adicionarTipoProduto(TipoProduto tipo) throws Exception {
 		validarDados(tipo);
 		int size = repositorioTipo.size();
 		for(int i = 0; i < size; i++) {
-			if(tipo.getCodigo() == repositorioTipo.get(i).getCodigo()) {
-				throw new Exception("Já existe um tipo com esse código!");
+			if(tipo.getNome().equals(repositorioTipo.get(i).getNome())) {
+				throw new Exception("Já existe um tipo com esse nome!");
 			}
 		}
+		tipo.setCodigo(proxId);
+		proxId++;
 		tipoBD.adicionar(tipo);
 		repositorioTipo = tipoBD.consultar();
 	}
@@ -92,9 +95,8 @@ public class ControladorTipoProduto {
 		}
 	}
 	
-	
 	@SuppressWarnings("unchecked")
-	private void gerarTabela() throws Exception{
+	private Integer gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
 		int maior = 0;
 		for(int i = 0; i < size; i++) {
@@ -116,6 +118,7 @@ public class ControladorTipoProduto {
 				e.printStackTrace();
 			}
 		}
+		return maior + 1;
 	}
 
 	public List<Produto> consultaPorTipo(TipoProduto tipo){
