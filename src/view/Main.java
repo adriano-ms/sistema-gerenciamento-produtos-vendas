@@ -94,8 +94,8 @@ public class Main extends JFrame {
 		JButton btnComprar = new JButton("Comprar");
 		btnComprar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Carrinho carrinho = new Carrinho();
-				new ComprarProduto(carrinho.getTblCarrinho(), carrinho).setVisible(true);;
+				Carrinho carrinho = new Carrinho(new ComprarProduto(null, null));
+				new ComprarProduto(carrinho.getTblCarrinho(), carrinho).setVisible(true);
 				dispose();
 			}
 		});

@@ -44,8 +44,14 @@ public class ComprarProduto extends JFrame {
 	private JTextField txtCodigoProduto;
 	private JTable tblProduto;
 	private JTable tblCarrinho;
+	protected int clientId;
 
 	public ComprarProduto(JTable tblCarrinho, Carrinho carrinho) {
+		
+		
+		
+		this.clientId = -1;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 572, 390);
 		contentPane = new JPanel();
@@ -110,16 +116,20 @@ public class ComprarProduto extends JFrame {
 		
 		DefaultComboBoxModel<String> modelCliente = new DefaultComboBoxModel<>(items);
 		JComboBox<String> cbxCliente = new JComboBox<>(modelCliente);
-		
+			int teste=0;
 	        cbxCliente.addFocusListener(new FocusListener() {
 	            @Override
 	            public void focusGained(FocusEvent e) {
 	                cbxCliente.removeItem("Cliente");
 	            }
-
+	            
+	            
+	            
 	            @Override
 	            public void focusLost(FocusEvent e) {
-	                if (cbxCliente.getSelectedIndex() == -1) {
+	            	clientId = Integer.parseInt((cbxCliente.getSelectedItem().toString().split("-"))[0].trim());
+	                System.out.println(clientId);
+	            	if (cbxCliente.getSelectedIndex() == -1) {
 	                    cbxCliente.addItem("Cliente");
 	                    cbxCliente.setForeground(Color.GRAY); // Altera a cor do texto para cinza
 	                    cbxCliente.setSelectedIndex(0);
@@ -151,20 +161,23 @@ public class ComprarProduto extends JFrame {
 				public void keyReleased(KeyEvent e) {
 					// TODO Auto-generated method stub
 					char caractere = e.getKeyChar();
-					if(!Character.isDigit(caractere)) {
-						txtCodigoProduto.setText("");
+					if(!Character.isDigit(caractere) && ((int)caractere)!=8) {
+						String text = txtCodigoProduto.getText();
+						txtCodigoProduto.setText(text.substring(0,text.length()-1));
 						model.setData(model.loadData());
 					}else {
 						try {
 							ControladorProduto ctrlProduto = new ControladorProduto();
 							Produto produto = ctrlProduto.consultarProduto(Integer.parseInt(txtCodigoProduto.getText()));
 							model.clearTable();
-							model.setValueAt(produto.getCodigo(), 0, 0);
-							model.setValueAt(produto.getNome(), 0, 1);
-							model.setValueAt(produto.getTipo().getNome(), 0, 2);
-							model.setValueAt(produto.getQtdEmEstoque(), 0, 3);
-							model.setValueAt(produto.getValor(), 0, 4);
-							model.setValueAt(null, 0, 5);
+							Object[] linha = new Object[model.getColumnCount()];
+							linha[0] = produto.getCodigo();
+							linha[1] = produto.getNome();
+							linha[2] = produto.getTipo().getNome();
+							linha[3] = produto.getQtdEmEstoque();
+							linha[4] = produto.getValor();
+							linha[5] = null;
+							model.addRow(linha);
 						} catch (Exception e1) {
 							System.err.println("Produto digitado não foi encontrado");
 						}
@@ -181,10 +194,17 @@ public class ComprarProduto extends JFrame {
 	        panel.add(txtCodigoProduto);
 	        txtCodigoProduto.setColumns(10);
 	        
+	        
+	}	
+	
+	public int getClientId() {
+		return clientId;
 	}
-	
-	
-	
+
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
+	}
+
 	// Modelo de tabela personalizado
     class ProdutoTableModel extends AbstractTableModel {
         private static final long serialVersionUID = 1L;
@@ -227,17 +247,48 @@ public class ComprarProduto extends JFrame {
         
         public void clearTable() {
 			try {
-				for (int i = 0; i < data.length; i++) {
-						for (int j = 0; j < columnNames.length; j++) {
-							this.setValueAt(null, i, j);
-						}
-					}
+				int size = getRowCount();
+				for (int i = size; i >= 0; i--) {
+					removeRow(i);
+				}
 			
 			}catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
+        
+        public void removeRow(int rowIndex) {
+			if (rowIndex >= 0 && rowIndex < data.length) {
+				Object[][] newData = new Object[data.length - 1][getColumnCount()];
+				for (int i = 0, j = 0; i < data.length; i++) {
+					if (i != rowIndex) {
+						newData[j++] = data[i];
+					}
+				}
+				data = newData;
+				fireTableDataChanged(); // Notifica a tabela de que os dados foram alterados
+			}
+		}
+        
+        public void addRow(Object[] rowData) {
+			int qtRow = getRowCount();
+			for (int i = 0; i < qtRow; i++) {
+				if(data[i][0].equals(rowData[0])) {
+					data[i][2] = (Integer.parseInt(String.valueOf(data[i][2])))+1;
+					fireTableCellUpdated(i, 2);
+					return;
+				}
+			}
+			Object[][] newData = new Object[data.length + 1][getColumnCount()];
+			for (int i = 0; i < data.length; i++) {
+				newData[i] = data[i];
+			}
+			newData[data.length] = rowData;
+			data = newData;
+
+			fireTableRowsInserted(data.length - 1, data.length - 1);
+		}
         
         public void setData(Object[][] obj) {
         	this.data = obj;

@@ -21,6 +21,11 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import br.edu.fateczl.list.List;
+import controller.ControladorCompra;
+import model.entities.Cliente;
+import model.entities.PessoaFisica;
+
 public class Carrinho extends JDialog {
 
 	private static final long serialVersionUID = 1L;
@@ -80,6 +85,10 @@ public class Carrinho extends JDialog {
 			updateTotalLabel(); // Atualiza o total no label
 
 		}
+		
+		public Object[][] getData() {
+			return data;
+		}
 
 		public void addRow(Object[] rowData) {
 			int qtRow = getRowCount();
@@ -87,6 +96,7 @@ public class Carrinho extends JDialog {
 				if(data[i][0].equals(rowData[0])) {
 					data[i][2] = (Integer.parseInt(String.valueOf(data[i][2])))+1;
 					fireTableCellUpdated(i, 2);
+					updateTotalLabel();
 					return;
 				}
 			}
@@ -165,7 +175,7 @@ public class Carrinho extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Carrinho() {
+	public Carrinho(ComprarProduto telaCP) {
 		setResizable(false);
 		setBounds(100, 100, 377, 274);
 		getContentPane().setLayout(null);
@@ -220,6 +230,31 @@ public class Carrinho extends JDialog {
 			JButton btnFecharCompra = new JButton("Fechar Compra");
 			btnFecharCompra.setFont(new Font("Cambria", Font.PLAIN, 14));
 			btnFecharCompra.setBounds(206, 177, 125, 23);
+			btnFecharCompra.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						ControladorCompra cp = new ControladorCompra();
+						int idCliente = telaCP.getClientId();
+						Cliente cliente = null;
+						List<Cliente> lista = cp.listarClientes();
+						int tamanho = lista.size();
+						for (int i = 0; i < tamanho; i++) {
+							if(idCliente == lista.get(i).getId()) {
+								cliente = lista.get(i);
+							}
+						}
+						String pedido = cp.checkout(model.getData(), cliente);
+						dispose();
+						new ExibirPedido(pedido).setVisible(true);
+//						cp.checkout(carrinho, null);
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			});
 			panel.add(btnFecharCompra);
 
 		}
