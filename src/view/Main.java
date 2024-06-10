@@ -1,14 +1,15 @@
 package view;
 
 import java.awt.EventQueue;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.JFrame;
 
-import model.entitites.Compra;
-import model.entitites.ItemCompra;
-import model.entitites.Produto;
+import br.edu.fateczl.list.List;
+import model.bd.PessoaFisicaBD;
+import model.entities.Carrinho;
+import model.entities.Endereco;
+import model.entities.PessoaFisica;
+import model.entities.Produto;
 
 public class Main {
 
@@ -20,7 +21,33 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		
+		PessoaFisica pf = new PessoaFisica();
+		pf.setId(1);
+		pf.setNome("Leudinho");
+		pf.setCpf("512313980123");
+		Endereco end = new Endereco();
+		end.setCodigo(0);
+		pf.setEndereco(end);
+		pf.setCelular("1192342325");
+		PessoaFisicaBD pfBD = new PessoaFisicaBD();
+		List<PessoaFisica> lista = new List<PessoaFisica>();
+		//lista.add(pf, 0);
+		pfBD.alterar(lista);
 		
+		Produto prod = new Produto();
+		prod.setCodigo(1);
+		prod.setNome("OPA");
+		prod.setDescricao("LEROLERO");
+		prod.setValor(10);
+		Carrinho carrinho = new Carrinho();
+		
+		carrinho.adicionarProduto(prod, 4, 1);
+		
+		carrinho.alterarQuantidadeProduto(1, 8);
+		
+		carrinho.finalizarCompra(1, "fisica", pf);
+		
+		System.out.println(carrinho.calcularTotal());
 		
 //		Date teste = dateFormat.parse(dat);
 //		System.out.println(teste.toString());
