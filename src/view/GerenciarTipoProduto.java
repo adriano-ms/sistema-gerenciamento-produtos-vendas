@@ -1,17 +1,20 @@
 package view;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import controller.ControladorTipoProduto;
 
 public class GerenciarTipoProduto extends JFrame {
 
@@ -20,25 +23,7 @@ public class GerenciarTipoProduto extends JFrame {
 	private JTextField txtCodigoTipo;
 	private JTextField txtNomeTipo;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GerenciarTipoProduto frame = new GerenciarTipoProduto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
+	
 	public GerenciarTipoProduto() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 548, 404);
@@ -86,6 +71,8 @@ public class GerenciarTipoProduto extends JFrame {
 		JButton btnAdicionarTipo = new JButton("Adicionar Novo Tipo +");
 		btnAdicionarTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				dispose();
 				new AdicionarTipo().setVisible(true);
 			}
@@ -97,8 +84,33 @@ public class GerenciarTipoProduto extends JFrame {
 		JButton btnConsultarTipo = new JButton("Consultar Tipo");
 		btnConsultarTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new ConsultarTipo().setVisible(true);
+				try {
+					ControladorTipoProduto ctrlTpProd = new ControladorTipoProduto();
+					
+					if (!txtCodigoTipo.getText().trim().isEmpty()) {
+						var tipoProduto = ctrlTpProd.consultarTipoProduto(Integer.valueOf(txtCodigoTipo.getText()));
+						
+						ConsultarTipo cTp = new ConsultarTipo(tipoProduto);
+						
+						dispose();
+						cTp.setVisible(true);
+						
+					} else if (!txtNomeTipo.getText().trim().isEmpty()) {
+						var tipoProduto = ctrlTpProd.consultarTipoProduto(txtNomeTipo.getText());
+						
+						ConsultarTipo cTp = new ConsultarTipo(tipoProduto);
+						
+						dispose();
+						cTp.setVisible(true);
+					} else {
+						throw new Exception("Preencha ao menos um campo!");
+					}
+						
+				
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
 			}
 		});
 		btnConsultarTipo.setFont(new Font("Cambria", Font.PLAIN, 18));

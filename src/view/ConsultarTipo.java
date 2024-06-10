@@ -2,17 +2,23 @@ package view;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import model.entities.TipoProduto;
+import javax.swing.JTextArea;
+
+import controller.*;
 
 public class ConsultarTipo extends JFrame {
 
@@ -21,32 +27,14 @@ public class ConsultarTipo extends JFrame {
 	private JTable table;
 	private JLabel lblCodigoDoTipo;
 	private JLabel lblNomeDoTipo;
-	private JLabel lblDescricao;
 	private JButton btnRemover;
 	private JButton btnVoltar;
+	private JTable table_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ConsultarTipo frame = new ConsultarTipo();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public ConsultarTipo() {
+	
+	public ConsultarTipo(TipoProduto tipoProduto) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 685, 480);
+		setBounds(100, 100, 801, 492);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -54,7 +42,7 @@ public class ConsultarTipo extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 649, 419);
+		panel.setBounds(10, 11, 765, 431);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -77,21 +65,30 @@ public class ConsultarTipo extends JFrame {
 		lblNomeDoTipo.setBounds(392, 135, 156, 32);
 		panel.add(lblNomeDoTipo);
 		
-		lblDescricao = new JLabel("Descrição");
-		lblDescricao.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescricao.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblDescricao.setBounds(405, 178, 156, 32);
-		panel.add(lblDescricao);
-		
-		JLabel lblConsultaCodigoTipo = new JLabel("");
+		JLabel lblConsultaCodigoTipo = new JLabel(String.valueOf(tipoProduto.getCodigo()));
 		lblConsultaCodigoTipo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblConsultaCodigoTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblConsultaCodigoTipo.setBounds(547, 92, 156, 32);
+		lblConsultaCodigoTipo.setBounds(550, 92, 89, 32);
 		panel.add(lblConsultaCodigoTipo);
 		
 		btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ControladorTipoProduto ctrlTpProd = new ControladorTipoProduto();
+					ctrlTpProd.removerTipoProduto(tipoProduto.getCodigo());
+					JOptionPane.showMessageDialog(null, "Remoção feita com sucesso!");
+					dispose();
+					new GerenciarTipoProduto().setVisible(true);
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null,e1.getMessage());
+				}
+			}
+		});
 		btnRemover.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnRemover.setBounds(359, 270, 109, 23);
+		btnRemover.setBounds(525, 397, 109, 23);
 		panel.add(btnRemover);
 		
 		btnVoltar = new JButton("Voltar");
@@ -102,7 +99,17 @@ public class ConsultarTipo extends JFrame {
 			}
 		});
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnVoltar.setBounds(494, 270, 95, 23);
+		btnVoltar.setBounds(660, 397, 95, 23);
 		panel.add(btnVoltar);
+		
+		JLabel lblNomeTipo = new JLabel(tipoProduto.getNome());
+		lblNomeTipo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNomeTipo.setFont(new Font("Cambria", Font.PLAIN, 18));
+		lblNomeTipo.setBounds(550, 135, 89, 32);
+		panel.add(lblNomeTipo);
+		
+		table_1 = new JTable();
+		table_1.setBounds(22, 104, 345, 274);
+		panel.add(table_1);
 	}
 }

@@ -22,8 +22,12 @@ public class ControladorProduto {
 
 	public void adicionarProduto(Produto produto) throws Exception {
 		validarDados(produto);
+
+		
 		for(List<Produto> produtos : repositorioProduto) {
+			
 			int size = produtos.size();
+			
 			for(int i = 0; i < size; i++) {
 				if(produto.getCodigo() == produtos.get(i).getCodigo()) {
 					throw new Exception("Já existe um produto com esse código!");
@@ -80,10 +84,6 @@ public class ControladorProduto {
 			throw new Exception("Ocorreu um erro na consulta do produto!");
 		}
 		throw new Exception("Produto não encontrado!");
-	}
-	
-	public List<Produto> consultaPorTipo(TipoProduto tipo){
-		return repositorioProduto[tipo.getCodigo()];
 	}
 	
 	public void atualizarEstoque(Produto produto, int qtde) throws Exception {

@@ -1,26 +1,27 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-import javax.swing.text.NumberFormatter;
-import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.NumberFormatter;
+
+import controller.ControladorProduto;
+import model.entities.Produto;
 
 public class AdicionarProduto extends JFrame {
 
@@ -29,28 +30,15 @@ public class AdicionarProduto extends JFrame {
 	private JTextField txtCodigoProduto;
 	private JTextField txtNomeProduto;
 	private JTextField txtQuantidade;
+	private JTextField txtValor;
+	private JTextField txtDescricao;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdicionarProduto frame = new AdicionarProduto();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 * @throws ParseException 
-	 */
-	public AdicionarProduto() throws ParseException {
+	
+
+	
+	public AdicionarProduto() throws Exception {	
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 577, 508);
 		contentPane = new JPanel();
@@ -109,7 +97,7 @@ public class AdicionarProduto extends JFrame {
 		txtQuantidade = new JTextField();
 		txtQuantidade.setFont(new Font("Cambria", Font.PLAIN, 18));
 		txtQuantidade.setColumns(10);
-		txtQuantidade.setBounds(257, 201, 52, 25);
+		txtQuantidade.setBounds(257, 201, 63, 25);
 		panel.add(txtQuantidade);
 		
 		//MaskFormatter mascaraValor = new MaskFormatter("R$#,#");
@@ -123,21 +111,32 @@ public class AdicionarProduto extends JFrame {
 		currencyFormatter.setMinimum(0.0);
 		currencyFormatter.setMaximum(Double.MAX_VALUE);
 		
-		
-		JFormattedTextField ftfValorProduto = new JFormattedTextField(currencyFormatter);
-		ftfValorProduto.setColumns(10);
-		ftfValorProduto.setBounds(257, 164, 74, 20);
-		panel.add(ftfValorProduto);
-		
 		JLabel lblTipoProduto = new JLabel("Tipo do Produto:");
 		lblTipoProduto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTipoProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblTipoProduto.setBounds(82, 244, 156, 32);
 		panel.add(lblTipoProduto);
 		
-		JComboBox cbxTipoProduto = new JComboBox();
+		
+		ControladorProduto ctrlProd = new ControladorProduto();
+		
+		var tipoProduto = ctrlProd.listarTipos();
+		
+		
+		String[] items = new String[tipoProduto.size()];
+		
+		for(int i = 0; i < items.length; i++) {
+			items[i] = tipoProduto.get(i).getNome();
+		}
+		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(items);
+		
+		
+		
+		JComboBox<String> cbxTipoProduto = new JComboBox<>(model);
 		cbxTipoProduto.setBounds(257, 247, 156, 32);
 		panel.add(cbxTipoProduto);
+			
 		
 		JLabel lblDescricao = new JLabel("Descrição");
 		lblDescricao.setHorizontalAlignment(SwingConstants.CENTER);
@@ -145,11 +144,26 @@ public class AdicionarProduto extends JFrame {
 		lblDescricao.setBounds(82, 294, 156, 32);
 		panel.add(lblDescricao);
 		
-		JTextArea txtADescricao = new JTextArea();
-		txtADescricao.setBounds(257, 290, 224, 65);
-		panel.add(txtADescricao);
-		
 		JButton btnAdicionarProduto = new JButton("Adicionar Produto +");
+		btnAdicionarProduto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Produto produto = new Produto();
+				produto.setCodigo(Integer.valueOf(txtCodigoProduto.getText()));
+				produto.setNome(txtNomeProduto.getText());
+				produto.setDescricao(txtDescricao.getText());
+				produto.setQtdEmEstoque(Integer.valueOf(txtQuantidade.getText()));
+				produto.setValor(Double.valueOf(txtValor.getText()));
+				
+				try {
+					ctrlProd.adicionarProduto(produto);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+				
+				
+			}
+		});
 		btnAdicionarProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnAdicionarProduto.setBounds(50, 390, 201, 32);
 		panel.add(btnAdicionarProduto);
@@ -165,6 +179,18 @@ public class AdicionarProduto extends JFrame {
 		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnVoltar.setBounds(291, 390, 189, 32);
 		panel.add(btnVoltar);
+		
+		txtValor = new JTextField();
+		txtValor.setFont(new Font("Cambria", Font.PLAIN, 18));
+		txtValor.setColumns(10);
+		txtValor.setBounds(257, 158, 63, 25);
+		panel.add(txtValor);
+		
+		txtDescricao = new JTextField();
+		txtDescricao.setFont(new Font("Cambria", Font.PLAIN, 18));
+		txtDescricao.setColumns(10);
+		txtDescricao.setBounds(257, 297, 231, 70);
+		panel.add(txtDescricao);
 		
 	}
 }
