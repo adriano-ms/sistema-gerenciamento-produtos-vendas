@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -81,6 +82,17 @@ public class AtualizarEstoque extends JDialog {
 		panel.add(btnFechar);
 		
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					controlador.atualizarEstoque(produto, Integer.parseInt(textField.getText()));
+					JOptionPane.showMessageDialog(null, "Estoque atualizado!");
+					dispose();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
 		btnAtualizar.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnAtualizar.setBounds(154, 210, 108, 20);
 		panel.add(btnAtualizar);

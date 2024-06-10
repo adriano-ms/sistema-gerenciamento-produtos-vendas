@@ -141,6 +141,8 @@ public class ConsultarProduto extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					controlador.removerProduto(produto.getCodigo());
+					JOptionPane.showMessageDialog(null, "Produto removido!");
+					btnVoltar.doClick();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}

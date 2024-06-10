@@ -35,6 +35,7 @@ public class ControladorCompra {
 	public List<Produto> listarProdutos(){
 		return this.repositorioProduto;
 	}
+	
 	/*
 	public Double checkout(Carrinho carrinho, Cliente cliente) {
 		carrinho.finalizarCompra(proxId, cliente.getClass(), null)

@@ -22,7 +22,7 @@ public class AdicionarTipo extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtNomeTipo;
 
-	public AdicionarTipo() {
+	public AdicionarTipo(ControladorTipoProduto controlador) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 581, 393);
 		contentPane = new JPanel();
@@ -59,18 +59,16 @@ public class AdicionarTipo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					ControladorTipoProduto ctrlTpProd = new ControladorTipoProduto();
 					TipoProduto tipoProduto = new TipoProduto();
 
 					tipoProduto.setNome(txtNomeTipo.getText());
-					ctrlTpProd.adicionarTipoProduto(tipoProduto);
+					controlador.adicionarTipoProduto(tipoProduto);
 					JOptionPane.showMessageDialog(null, "Inserção feita com sucesso!");
 
 					dispose();
 					new GerenciarTipoProduto().setVisible(true);
 
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, e1);
 				}
 

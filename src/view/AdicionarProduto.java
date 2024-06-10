@@ -131,6 +131,18 @@ public class AdicionarProduto extends JFrame {
 		lblDescricao.setBounds(82, 294, 156, 32);
 		panel.add(lblDescricao);
 
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				GerenciarProduto gP = new GerenciarProduto();
+				gP.setVisible(true);
+			}
+		});
+		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
+		btnVoltar.setBounds(291, 390, 189, 32);
+		panel.add(btnVoltar);
+
 		JButton btnAdicionarProduto = new JButton("Adicionar Produto +");
 		btnAdicionarProduto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,8 +163,9 @@ public class AdicionarProduto extends JFrame {
 							produto.setTipo(tipo);
 						}
 					}
-
 					controlador.adicionarProduto(produto);
+					JOptionPane.showMessageDialog(null, "Produto cadastrado!");
+					btnVoltar.doClick();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage());
 				}
@@ -161,18 +174,6 @@ public class AdicionarProduto extends JFrame {
 		btnAdicionarProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnAdicionarProduto.setBounds(50, 390, 201, 32);
 		panel.add(btnAdicionarProduto);
-
-		JButton btnVoltar = new JButton("Voltar");
-		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				GerenciarProduto gP = new GerenciarProduto();
-				gP.setVisible(true);
-			}
-		});
-		btnVoltar.setFont(new Font("Cambria", Font.PLAIN, 18));
-		btnVoltar.setBounds(291, 390, 189, 32);
-		panel.add(btnVoltar);
 
 		txtValor = new JTextField();
 		txtValor.setFont(new Font("Cambria", Font.PLAIN, 18));

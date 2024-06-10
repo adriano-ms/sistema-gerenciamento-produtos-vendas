@@ -94,12 +94,12 @@ public class ControladorProduto {
 	public void atualizarEstoque(Produto produto, int qtde) throws Exception {
 		validarDados(produto);
 		try {
-			int tipo = produto.getTipo().getCodigo();
-			int size = repositorioProduto[tipo].size();
+			int hash = produto.hashCode();
+			int size = repositorioProduto[hash].size();
 			for(int i = 0; i < size; i++) {
-				var entidade = repositorioProduto[tipo].get(i);
+				var entidade = repositorioProduto[hash].get(i);
 				if(entidade.getCodigo() == produto.getCodigo()) {
-					repositorioProduto[tipo].get(i).setQtdEmEstoque(qtde);
+					repositorioProduto[hash].get(i).setQtdEmEstoque(qtde);
 				}
 			}
 			produtoBD.alterar(tabelaParaLista());
