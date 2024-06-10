@@ -65,21 +65,27 @@ public class ControladorTipoProduto {
 		throw new Exception("Tipo de produto não encontrado!");
 	}
 	
-	public TipoProduto removerTipoProduto(int id) throws Exception {
+	public void removerTipoProduto(int id) throws Exception {
 		try {
 			int size = repositorioTipo.size();
 			for (int i = 0; i < size; i++) {
 				var tipo = repositorioTipo.get(i);
 				if(tipo.getCodigo() == id) {
-					repositorioTipo.remove(i);
-					tipoBD.alterar(repositorioTipo);
-					return tipo;
+					if (consultaPorTipo(tipo).isEmpty()) {
+						repositorioTipo.remove(i);
+						tipoBD.alterar(repositorioTipo);
+					} else {
+						throw new Exception("Não é possível excluír um tipo com produtos cadastrados!!");
+					}
+					break;
+				}
+				if(i == size - 1) {
+					throw new Exception("Tipo de produto não encontrado!");
 				}
 			}
 		} catch (Exception e) {
-			throw new Exception("Ocorreu um erro na exclusão do tipo!");
+			throw new Exception(e.getMessage());
 		}
-		throw new Exception("Tipo de produto não encontrado!");
 	}
 	
 	private Boolean validarCampo(String s) {

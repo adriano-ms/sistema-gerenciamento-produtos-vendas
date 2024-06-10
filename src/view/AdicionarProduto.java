@@ -155,7 +155,7 @@ public class AdicionarProduto extends JFrame {
 					produto.setValor(Double.valueOf(txtValor.getText()));
 
 					int codTipo = Integer
-							.parseInt(String.valueOf(((String) cbxTipoProduto.getSelectedItem()).charAt(0)));
+							.parseInt(String.valueOf(((String) cbxTipoProduto.getSelectedItem()).split(" - ")[0]));
 					int size = tipoProduto.size();
 					for (int i = 0; i < size; i++) {
 						var tipo = tipoProduto.get(i);

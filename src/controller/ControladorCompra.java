@@ -1,6 +1,8 @@
 package controller;
 
 import br.edu.fateczl.list.List;
+import br.edu.fateczl.queue.Queue;
+import br.edu.fateczl.stack.Stack;
 import model.bd.CompraBD;
 import model.bd.PessoaFisicaBD;
 import model.bd.PessoaJuridicaBD;
@@ -8,6 +10,7 @@ import model.bd.ProdutoBD;
 import model.entities.Carrinho;
 import model.entities.Cliente;
 import model.entities.Compra;
+import model.entities.ItemCompra;
 import model.entities.PessoaFisica;
 import model.entities.PessoaJuridica;
 import model.entities.Produto;
@@ -35,10 +38,11 @@ public class ControladorCompra {
 	public List<Produto> listarProdutos(){
 		return this.repositorioProduto;
 	}
-	
+
 	/*
 	public Double checkout(Carrinho carrinho, Cliente cliente) {
-		carrinho.finalizarCompra(proxId, cliente.getClass(), null)
+		Queue<ItemCompra> fila = new Queue<>();
+		Stack<ItemCompra> aux = new Stack<>();
 	}
 	*/
 	

@@ -14,6 +14,8 @@ import javax.swing.border.EmptyBorder;
 
 import controller.ControladorProduto;
 import model.entities.Produto;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
 
 public class ConsultarProduto extends JFrame {
 
@@ -71,46 +73,49 @@ public class ConsultarProduto extends JFrame {
 		lblTipoProduto.setBounds(83, 249, 156, 32);
 		panel.add(lblTipoProduto);
 		
-		JLabel lblDescricao = new JLabel("Descrição");
+		JLabel lblDescricao = new JLabel("Descrição:");
 		lblDescricao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescricao.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblDescricao.setBounds(83, 299, 156, 32);
 		panel.add(lblDescricao);
 		
 		JLabel lblConsultaCodigoProduto = new JLabel(String.valueOf(produto.getCodigo()));
-		lblConsultaCodigoProduto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultaCodigoProduto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblConsultaCodigoProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblConsultaCodigoProduto.setBounds(254, 74, 156, 32);
 		panel.add(lblConsultaCodigoProduto);
 		
 		JLabel lblConsultaNomeProduto = new JLabel(produto.getNome());
-		lblConsultaNomeProduto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultaNomeProduto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblConsultaNomeProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblConsultaNomeProduto.setBounds(249, 117, 156, 32);
+		lblConsultaNomeProduto.setBounds(254, 117, 156, 32);
 		panel.add(lblConsultaNomeProduto);
 		
 		JLabel lblConsultaValorProduto = new JLabel(String.valueOf(produto.getValor()));
-		lblConsultaValorProduto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultaValorProduto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblConsultaValorProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblConsultaValorProduto.setBounds(254, 160, 156, 32);
 		panel.add(lblConsultaValorProduto);
 		
 		JLabel lblConsultaQuantidade = new JLabel(String.valueOf(produto.getQtdEmEstoque()));
-		lblConsultaQuantidade.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultaQuantidade.setHorizontalAlignment(SwingConstants.LEFT);
 		lblConsultaQuantidade.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblConsultaQuantidade.setBounds(222, 203, 156, 32);
+		lblConsultaQuantidade.setBounds(254, 203, 156, 32);
 		panel.add(lblConsultaQuantidade);
 		
 		JLabel lblConsultaTipoProduto = new JLabel(produto.getTipo().getNome());
-		lblConsultaTipoProduto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblConsultaTipoProduto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblConsultaTipoProduto.setFont(new Font("Cambria", Font.PLAIN, 18));
 		lblConsultaTipoProduto.setBounds(254, 249, 156, 32);
 		panel.add(lblConsultaTipoProduto);
 		
-		JLabel lblConsultaDescricao = new JLabel(produto.getDescricao());
-		lblConsultaDescricao.setHorizontalAlignment(SwingConstants.CENTER);
+		JTextArea lblConsultaDescricao = new JTextArea(produto.getDescricao());
+		lblConsultaDescricao.setEditable(false);
+		lblConsultaDescricao.setBackground(UIManager.getColor("Button.background"));
 		lblConsultaDescricao.setFont(new Font("Cambria", Font.PLAIN, 18));
-		lblConsultaDescricao.setBounds(249, 299, 259, 98);
+		lblConsultaDescricao.setWrapStyleWord(true);
+		lblConsultaDescricao.setLineWrap(true);
+		lblConsultaDescricao.setBounds(254, 299, 247, 98);
 		panel.add(lblConsultaDescricao);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -152,5 +157,4 @@ public class ConsultarProduto extends JFrame {
 		btnRemover.setBounds(42, 408, 108, 32);
 		panel.add(btnRemover);
 	}
-
 }
