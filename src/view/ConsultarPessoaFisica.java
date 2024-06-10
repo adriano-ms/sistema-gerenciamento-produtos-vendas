@@ -106,7 +106,7 @@ public class ConsultarPessoaFisica extends JFrame {
 		lblNumero.setBounds(300, 189, 113, 32);
 		panel.add(lblNumero);
 		
-		txtNumero = new JTextField(Integer.valueOf(pf.getEndereco().getNumero()));
+		txtNumero = new JTextField(String.valueOf(pf.getEndereco().getNumero()));
 		txtNumero.setFont(new Font("Cambria", Font.PLAIN, 18));
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(402, 192, 120, 25);

@@ -107,7 +107,7 @@ public class ConsultarPessoaJuridica extends JFrame {
 		lblNumero.setBounds(300, 189, 113, 32);
 		panel.add(lblNumero);
 		
-		txtNumero = new JTextField(pj.getEndereco().getNumero());
+		txtNumero = new JTextField(String.valueOf(pj.getEndereco().getNumero()));
 		txtNumero.setFont(new Font("Cambria", Font.PLAIN, 18));
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(402, 192, 120, 25);
