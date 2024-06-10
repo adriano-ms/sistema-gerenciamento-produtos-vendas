@@ -96,15 +96,21 @@ public class ControladorTipoProduto {
 	@SuppressWarnings("unchecked")
 	private void gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
-		this.repositorioProduto = new List[size];
+		int maior = 0;
 		for(int i = 0; i < size; i++) {
-			this.repositorioProduto[i] = new List<Produto>();
+			var tipo = repositorioTipo.get(i);
+			if(tipo.getCodigo() > maior) {
+				maior = tipo.getCodigo();
+			}
 		}
+		this.repositorioProduto = new List[maior + 1];
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
-				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
+				var produto = lista.get(i);
+				this.repositorioProduto[produto.getTipo().getCodigo()] = new List<Produto>();
+				this.repositorioProduto[produto.getTipo().getCodigo()].addLast(produto);
 			} catch (Exception e) {
 				//throw new Exception("Ocorreu um erro ao carregar os produtos!");
 				e.printStackTrace();
