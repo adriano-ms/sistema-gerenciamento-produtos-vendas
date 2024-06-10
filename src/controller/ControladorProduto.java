@@ -144,11 +144,13 @@ public class ControladorProduto {
 	private void gerarTabela() throws Exception{
 		int size = repositorioTipo.size();
 		this.repositorioProduto = new List[size];
+		for(int i = 0; i < size; i++) {
+			this.repositorioProduto[i] = new List<Produto>();
+		}
 		List<Produto> lista = produtoBD.consultar();
 		size = lista.size();
 		for(int i = 0; i < size; i++) {
 			try {
-				this.repositorioProduto[i] = new List<Produto>();
 				this.repositorioProduto[lista.get(i).getTipo().getCodigo()].addLast(lista.get(i));
 			} catch (Exception e) {
 				throw new Exception("Ocorreu um erro ao carregar os produtos!");
