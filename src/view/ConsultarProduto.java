@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,27 +7,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import controller.ControladorProduto;
 import model.entities.Produto;
 
 public class ConsultarProduto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Produto produto;
 
-	/**
-	 * Launch the application.
-	 */
-
-	/**
-	 * Create the frame.
-	 */
-	public ConsultarProduto(Produto produto) {
-		this.produto = produto;
+	public ConsultarProduto(ControladorProduto controlador, Produto produto) {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 573, 511);
@@ -136,10 +128,8 @@ public class ConsultarProduto extends JFrame {
 		JButton btnAtualizarEstoque = new JButton("Atualizar Estoque");
 		btnAtualizarEstoque.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AtualizarEstoque aE = new AtualizarEstoque();
+				AtualizarEstoque aE = new AtualizarEstoque(controlador, produto);
 				aE.setVisible(true);
-				
-				
 			}
 		});
 		btnAtualizarEstoque.setFont(new Font("Cambria", Font.PLAIN, 18));
@@ -147,6 +137,15 @@ public class ConsultarProduto extends JFrame {
 		panel.add(btnAtualizarEstoque);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					controlador.removerProduto(produto.getCodigo());
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage());
+				}
+			}
+		});
 		btnRemover.setFont(new Font("Cambria", Font.PLAIN, 18));
 		btnRemover.setBounds(42, 408, 108, 32);
 		panel.add(btnRemover);

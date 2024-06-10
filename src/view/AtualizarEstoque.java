@@ -1,30 +1,25 @@
 package view;
 
-import java.awt.BorderLayout;
-
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
+
+import controller.ControladorProduto;
+import model.entities.Produto;
 
 public class AtualizarEstoque extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 
-	
-	/**
-	 * Create the dialog.
-	 */
-	public AtualizarEstoque() {
+	public AtualizarEstoque(ControladorProduto controlador, Produto produto) {
 		setModal(true);
 		setBounds(100, 100, 547, 300);
 		getContentPane().setLayout(null);
