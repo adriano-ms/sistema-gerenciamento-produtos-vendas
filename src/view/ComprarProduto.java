@@ -213,7 +213,7 @@ public class ComprarProduto extends JFrame {
 					Produto prod = list.get(i);
 					dataCliente[i][0] = prod.getCodigo();
 					dataCliente[i][1] = prod.getNome();
-					dataCliente[i][2] = "tipo "+Integer.toString(i+1);
+					dataCliente[i][2] = prod.getTipo().getNome();
 					dataCliente[i][3] = prod.getQtdEmEstoque();
 					dataCliente[i][4] = prod.getValor();
 					dataCliente[i][5] = null;
@@ -318,7 +318,7 @@ public class ComprarProduto extends JFrame {
                 setForeground(table.getForeground());
                 setBackground(UIManager.getColor("Button.background"));
             }
-            setText((value == null) ? "" : value.toString());
+            setText((value == null) ? "+" : value.toString());
             return this;
         }
     }
@@ -337,7 +337,7 @@ public class ComprarProduto extends JFrame {
                   // Obtém os valores da linha clicada
                   String nome = (String) model.getValueAt(row, 1); // Supondo que o nome esteja na segunda coluna
                   Double valor = (Double) model.getValueAt(row, 4); // Supondo que o valor esteja na quinta coluna
-                  int quantidade = (int) model.getValueAt(row, 3); // Supondo que a quantidade esteja na quarta coluna
+                  int quantidade = 1; // Supondo que a quantidade esteja na quarta coluna
                   
                   Object[] rowData = {nome, valor, quantidade, null};
                   

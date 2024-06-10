@@ -33,8 +33,8 @@ public class Carrinho extends JDialog {
 		private static final long serialVersionUID = 1L;
 
 		private final String[] columnNames = { "Name", "Value", "Quantity" };
-		private Object[][] data = { { "Item 1", 0.0, 1 } };
-
+		private Object[][] data = {};
+		 
 		@Override
 		public int getRowCount() {
 			return data.length;
@@ -82,6 +82,14 @@ public class Carrinho extends JDialog {
 		}
 
 		public void addRow(Object[] rowData) {
+			int qtRow = getRowCount();
+			for (int i = 0; i < qtRow; i++) {
+				if(data[i][0].equals(rowData[0])) {
+					data[i][2] = (Integer.parseInt(String.valueOf(data[i][2])))+1;
+					fireTableCellUpdated(i, 2);
+					return;
+				}
+			}
 			Object[][] newData = new Object[data.length + 1][getColumnCount()];
 			for (int i = 0; i < data.length; i++) {
 				newData[i] = data[i];
@@ -192,7 +200,8 @@ public class Carrinho extends JDialog {
 			SpinnerEditor spinnerEditor = new SpinnerEditor();
 			getTblCarrinho().getColumnModel().getColumn(2).setCellEditor(spinnerEditor);
 			getTblCarrinho().getColumnModel().getColumn(2).setCellRenderer(new SpinnerRenderer());
-
+			
+			
 			JPanel panel_1 = new JPanel();
 			panel_1.setBackground(new Color(192, 192, 192));
 			panel_1.setBounds(0, 0, 341, 30);
