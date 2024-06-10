@@ -14,7 +14,7 @@ public class Carrinho {
 		pilha = new Stack<ItemCompra>();
 	}
 	
-	public Queue<ItemCompra> getPilha() {
+	public Stack<ItemCompra> getPilha() {
 		return pilha;
 	}
 
