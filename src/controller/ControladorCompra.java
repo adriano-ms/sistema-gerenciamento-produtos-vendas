@@ -2,7 +2,6 @@ package controller;
 
 import br.edu.fateczl.list.List;
 import br.edu.fateczl.queue.Queue;
-import br.edu.fateczl.stack.Stack;
 import model.bd.CompraBD;
 import model.bd.PessoaFisicaBD;
 import model.bd.PessoaJuridicaBD;
@@ -39,12 +38,30 @@ public class ControladorCompra {
 		return this.repositorioProduto;
 	}
 
-	/*
-	public Double checkout(Carrinho carrinho, Cliente cliente) {
+	public String checkout(Object[][] itens, Cliente cliente) throws Exception {
+		Carrinho carrinho = new Carrinho();
+		int linhas = itens.length;
+		for(int i = 0; i < linhas; i++) {
+			carrinho.adicionarProduto(buscarProduto((String)itens[i][0]), Integer.parseInt((String)itens[i][2]), proxId);
+		}
+		carrinho.finalizarCompra(proxId, null, cliente);
+		proxId++;
 		Queue<ItemCompra> fila = new Queue<>();
-		Stack<ItemCompra> aux = new Stack<>();
+		for(ItemCompra item : carrinho.getPilha()) {
+			fila.insert(item);
+		}
+		StringBuffer buffer = new StringBuffer();
+		double total = 0;
+		buffer.append("RESUMO DA COMPRA:\n");
+		buffer.append("NOME\tVALOR\tQTDE.");
+		for(int i = 0; i < linhas; i++) {
+			var ent = fila.remove();
+			buffer.append(ent.getProduto().getNome() + "\t" + String.format("R$.2f", ent.getProduto().getValor()) +  "\t" + ent.getQuantidade() + "\n");
+			total += ent.getProduto().getValor() + ent.getQuantidade();
+		}
+		buffer.append("TOTAL = " + String.format("R$.2f", total));
+		return buffer.toString();
 	}
-	*/
 	
 	public List<Cliente> listarClientes(){
 		return this.repositorioCliente;
@@ -80,5 +97,16 @@ public class ControladorCompra {
 			clientes.addLast(pjs.get(i));
 		}
 		return clientes;
+	}
+	
+	private Produto buscarProduto(String nome) throws Exception {
+		int size = repositorioProduto.size();
+		for(int i = 0; i < size; i++) {
+			var produto = repositorioProduto.get(i);
+			if(produto.getNome().equals(nome)) {
+				return produto;
+			}
+		}
+		throw new Exception("Produto não encontrado!");
 	}
 }
