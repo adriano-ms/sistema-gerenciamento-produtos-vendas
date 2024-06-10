@@ -14,6 +14,10 @@ public class Carrinho {
 		pilha = new Stack<ItemCompra>();
 	}
 	
+	public Stack<ItemCompra> getPilha() {
+		return pilha;
+	}
+
 	public double calcularTotal() {
 		//Queue<ItemCompra> pilhaAux = pilha;
 		double total = 0;
